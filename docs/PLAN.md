@@ -1,7 +1,10 @@
 # OrderLane: Project Plan
 
 > **Status:** APPROVED on 2026-10-26 with all default decisions (D1–D12). Day 1 is built.
-> **Change since approval:** Docker Compose lives at the repo root (`compose.yaml`) instead of `infra/`, so `docker compose up` works without extra flags.
+> **Changes since approval:**
+> - Docker Compose lives at the repo root (`compose.yaml`) instead of `infra/`, so `docker compose up` works without extra flags.
+> - Day 2: catalog matching runs **in memory** (rapidfuzz over a `CatalogIndex`) instead of querying `pg_trgm`. A wholesaler's catalog is hundreds of products, so this is fast, testable without a database, and lets the evaluation run anywhere. The `pg_trgm` indexes stay for dashboard search and larger catalogs.
+> - Day 2: the evaluation harness lives in `backend/evals/` (it imports the app); datasets and results stay in `evals/`.
 
 **One line:** An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders and invoices for a small wholesaler, with a review dashboard and a measured evaluation.
 

@@ -2,7 +2,7 @@
 
 An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders for a small wholesaler.
 
-> **Status: Day 1 of 7.** WhatsApp webhook, background worker, database schema, seed data, CI and tests are in place. The agent, dashboard and evaluation are next. See [docs/PLAN.md](docs/PLAN.md).
+> **Status: Day 2 of 7.** WhatsApp webhook, background worker, database schema, seed data, CI, the rules-only matching pipeline and the evaluation harness are in place. The LLM agent and dashboard are next. See [docs/PLAN.md](docs/PLAN.md).
 >
 > This is a portfolio project. It is not used by a real business, and all results come from a volunteer-written evaluation dataset.
 
@@ -17,6 +17,32 @@ WhatsApp ──webhook──▶ FastAPI ──▶ PostgreSQL (message + job save
 - The webhook **checks Meta's signature**, saves the message, queues a job and replies `200` immediately. All slow work happens in the worker.
 - **Duplicate deliveries are harmless:** messages are unique by `(channel, external_id)`, and queued jobs have a fixed ID.
 - Failed jobs **retry with backoff** (3 tries), then are marked failed with the error, so nothing is lost silently.
+
+## Order understanding (rules baseline)
+
+Before any LLM is involved, a rules pipeline turns messages like `"5 ctn tapal 950, 2 dz surf adha kilo"` into order lines:
+
+1. **Normalize:** units (`ctn/peti` → carton, `dz/darjan` → dozen), number words (`paanch` → 5, `aadha` → 0.5), sizes (`adha kilo` → 500g), filler words removed.
+2. **Parse:** split into items, whether the quantity comes first (`5 ctn tapal`) or last (`tapal 5 ctn`), with or without separators.
+3. **Match:** exact alias, then fuzzy matching ([rapidfuzz](https://github.com/rapidfuzz/RapidFuzz)) that scores word coverage, closeness and pack size, so `surf 500` never becomes Surf 1kg.
+4. **Decide:** confident matches are accepted. Requests like `1 dozen ariel` (two sizes exist) are marked **ambiguous** and held for review instead of guessed.
+5. **Apply:** keyword intents (new order, add, modify, remove, cancel, question, complaint) update an in-memory draft.
+
+This is the **baseline** the LLM agent will be measured against, and the agent's fallback when the LLM is unavailable.
+
+## Evaluation
+
+```bash
+cd backend
+uv run python -m evals.run --show-failures
+```
+
+Each case is a conversation (one or more messages) with its correct final order. Quantities are compared in base units, so "half a carton" equals "6 pieces". Metrics: intent accuracy, line precision and recall, order exact match, auto-confirm rate and precision, and whether ambiguous requests were sent to review. Results are broken down by tag.
+
+| Dataset | Cases | What it is |
+|---|---|---|
+| `examples.jsonl` | 30 | **Development set**, written by the developer while building the rules. Scores here are optimistic by design and only guard against regressions (checked in CI). |
+| `volunteer.jsonl` | coming | **Test set:** messages written by volunteers following [scripted tasks](evals/datasets/tasks.yaml), imported with `python -m evals.import_form`. This is the real measurement. |
 
 ## Tech stack
 
