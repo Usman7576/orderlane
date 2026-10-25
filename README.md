@@ -2,7 +2,7 @@
 
 An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders for a small wholesaler.
 
-> **Status: Day 2 of 7.** WhatsApp webhook, background worker, database schema, seed data, CI, the rules-only matching pipeline and the evaluation harness are in place. The LLM agent and dashboard are next. See [docs/PLAN.md](docs/PLAN.md).
+> **Status: Day 3 of 7.** Messages (text and voice) now run through a LangGraph agent that builds draft orders with real prices, stock and credit checks, and pauses for staff review when unsure. Next: sending replies, customer confirmation and staff approval (Day 4), then the dashboard. See [docs/PLAN.md](docs/PLAN.md).
 >
 > This is a portfolio project. It is not used by a real business, and all results come from a volunteer-written evaluation dataset.
 
@@ -30,12 +30,34 @@ Before any LLM is involved, a rules pipeline turns messages like `"5 ctn tapal 9
 
 This is the **baseline** the LLM agent will be measured against, and the agent's fallback when the LLM is unavailable.
 
+## The agent (LangGraph)
+
+```
+interpret -> resolve_products -> question: answer_question
+                              -> other:    handoff
+                              -> order:    update_draft -> check_business_rules -> save_order
+save_order -> needs staff: hold_reply -> staff_review (pauses) -> compose_reply
+           -> otherwise:   compose_reply
+```
+
+- **interpret:** one structured-output call to Azure OpenAI returns the intent and order instructions (product mention, quantity, unit, add/set/remove). Without an LLM, or if it fails, the rules pipeline produces the same shape, and the order is held for review.
+- **resolve_products:** the Day 2 matcher maps each mention to the catalog. Only when several products are close does the LLM choose, **and only from the candidates it is given**; any other answer is ignored.
+- **check_business_rules:** prices (by customer tier), stock, credit limit, first order and large orders. All numbers come from the database, never the LLM.
+- **Routing is fixed code:** uncertain lines, credit or stock problems, first orders, low confidence or an LLM outage go to **staff review**. The run pauses with LangGraph `interrupt()`, its state saved in PostgreSQL, and resumes when staff approve or reject.
+- **Replies** are templates filled from the database, so prices in a message are always real.
+- **Voice notes:** downloaded from WhatsApp and transcribed by Azure AI Speech (short-audio REST API, free tier). Each configured language is tried and the most confident transcript wins.
+- **Tracing:** every run is stored in `agent_runs` (intent, route, latency, tokens, estimated cost, prompt version) with one `agent_steps` row per step.
+
 ## Evaluation
 
 ```bash
 cd backend
-uv run python -m evals.run --show-failures
+uv run python -m evals.run --show-failures            # rules pipeline (baseline)
+uv run python -m evals.run --config agent-rules       # full agent, LLM off
+uv run python -m evals.run --config agent-llm         # full agent with Azure OpenAI
 ```
+
+LLM answers are cached in `evals/cache/` (not committed), so re-running an evaluation costs nothing.
 
 Each case is a conversation (one or more messages) with its correct final order. Quantities are compared in base units, so "half a carton" equals "6 pieces". Metrics: intent accuracy, line precision and recall, order exact match, auto-confirm rate and precision, and whether ambiguous requests were sent to review. Results are broken down by tag.
 

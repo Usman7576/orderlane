@@ -5,6 +5,9 @@
 > - Docker Compose lives at the repo root (`compose.yaml`) instead of `infra/`, so `docker compose up` works without extra flags.
 > - Day 2: catalog matching runs **in memory** (rapidfuzz over a `CatalogIndex`) instead of querying `pg_trgm`. A wholesaler's catalog is hundreds of products, so this is fast, testable without a database, and lets the evaluation run anywhere. The `pg_trgm` indexes stay for dashboard search and larger catalogs.
 > - Day 2: the evaluation harness lives in `backend/evals/` (it imports the app); datasets and results stay in `evals/`.
+> - Day 3: intent and extraction are **one** structured LLM call (`interpret`) instead of two, which halves latency and cost; a second call (`choose`) runs only for ambiguous products.
+> - Day 3: Azure Speech's short-audio REST API accepts WhatsApp's OGG/Opus directly, so no ffmpeg conversion is needed (ffmpeg stays in the image as a fallback). `ur-PK` transcripts come back in Urdu script: the LLM reads them, the rules fallback doesn't.
+> - Day 3: business tools have two implementations (PostgreSQL for the worker, in-memory for evaluation), so the evaluation runs the exact same agent graph.
 
 **One line:** An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders and invoices for a small wholesaler, with a review dashboard and a measured evaluation.
 

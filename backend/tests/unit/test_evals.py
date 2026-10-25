@@ -84,12 +84,12 @@ def test_dataset_files_load_and_reference_real_products(index: CatalogIndex) -> 
                 assert line.unit in index.by_key[line.sku].units, case.id
 
 
-def test_rules_baseline_regression_guard(index: CatalogIndex) -> None:
+async def test_rules_baseline_regression_guard(index: CatalogIndex) -> None:
     """Smoke evaluation for CI: the rules baseline must not silently get worse on the
     development examples. (These examples were used while writing the rules, so the
     real measurement is the volunteer test set, not this number.)"""
     cases = load_cases([DATASETS / "examples.jsonl"])
-    summary = summarize(evaluate(cases, rules_runner(index), index))
+    summary = summarize(await evaluate(cases, rules_runner(index), index))
     assert summary["order_exact_match"] >= 0.9
     assert summary["auto_confirm_precision"] == 1.0
 

@@ -2,6 +2,8 @@
 
 Usage (from backend/):
     uv run python -m evals.run                      # rules baseline on every dataset file
+    uv run python -m evals.run --config agent-rules # LangGraph agent, no LLM
+    uv run python -m evals.run --config agent-llm   # LangGraph agent with Azure OpenAI (cached)
     uv run python -m evals.run --cases ../evals/datasets/examples.jsonl
     uv run python -m evals.run --show-failures
 
@@ -9,30 +11,45 @@ Writes evals/results/<date>-<config>.json and .md, and prints the summary table.
 """
 
 import argparse
+import asyncio
 import json
 import subprocess
-from collections.abc import Callable
+from collections.abc import Awaitable, Callable
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from langgraph.checkpoint.memory import InMemorySaver
+
+from app.agent.graph import build_graph, run_message
+from app.agent.state import AgentDeps
+from app.agent.tools import MemoryOrderTools
+from app.config import get_settings
+from app.integrations.llm import CachedLLM
 from app.matching.catalog import CatalogIndex
 from app.matching.matcher import MatchConfig, Matcher
 from app.matching.rules_pipeline import RulesPipeline
 from app.ordering.draft import Draft
+from app.workers.main import make_llm
 from evals.cases import REPO_ROOT, RESULTS, EvalCase, default_case_files, load_cases
 from evals.metrics import CaseScore, as_dict, breakdown, score_case, summarize
 
-CATALOG = REPO_ROOT / "backend" / "seed" / "catalog.csv"
+SEED = REPO_ROOT / "backend" / "seed"
+CATALOG = SEED / "catalog.csv"
+LLM_CACHE = REPO_ROOT / "evals" / "cache"
+# A trusted customer with room on their credit limit, so routing reflects understanding,
+# not credit checks.
+EVAL_CUSTOMER_ID = 6
 
 # A runner turns one case into (predicted intent per message, final draft).
-Runner = Callable[[EvalCase], tuple[list[str], Draft]]
+Runner = Callable[[EvalCase], Awaitable[tuple[list[str], Draft]]]
 
 
 def rules_runner(index: CatalogIndex) -> Runner:
+    """Day 2 baseline: the plain rules pipeline, no graph."""
     pipeline = RulesPipeline(Matcher(index, MatchConfig()))
 
-    def run(case: EvalCase) -> tuple[list[str], Draft]:
+    async def run(case: EvalCase) -> tuple[list[str], Draft]:
         draft, intents = Draft(), []
         for message in case.messages:
             step = pipeline.process(message, draft)
@@ -43,15 +60,49 @@ def rules_runner(index: CatalogIndex) -> Runner:
     return run
 
 
-RUNNERS: dict[str, Callable[[CatalogIndex], Runner]] = {"rules": rules_runner}
+def agent_runner(index: CatalogIndex, *, use_llm: bool) -> Runner:
+    """The full LangGraph agent with in-memory tools; with or without the LLM."""
+    llm = None
+    if use_llm:
+        settings = get_settings()
+        inner = make_llm(settings)
+        if inner is None:
+            raise SystemExit("agent-llm needs AZURE_OPENAI_* settings in .env")
+        llm = CachedLLM(inner, LLM_CACHE, settings.azure_openai_deployment_small)
+    graph = build_graph(InMemorySaver())
+
+    async def run(case: EvalCase) -> tuple[list[str], Draft]:
+        tools = MemoryOrderTools.from_seed(SEED)
+        deps = AgentDeps(tools=tools, matcher=Matcher(index), llm=llm)
+        intents = []
+        for i, message in enumerate(case.messages):
+            outcome = await run_message(
+                graph,
+                deps,
+                thread_id=f"{case.id}:{i}",
+                business_id=1,
+                customer_id=EVAL_CUSTOMER_ID,
+                text=message,
+            )
+            intents.append(str(outcome.state.get("intent", "")))
+        return intents, await tools.load_draft(EVAL_CUSTOMER_ID)
+
+    return run
 
 
-def evaluate(cases: list[EvalCase], runner: Runner, index: CatalogIndex) -> list[CaseScore]:
+RUNNERS: dict[str, Callable[[CatalogIndex], Runner]] = {
+    "rules": rules_runner,
+    "agent-rules": lambda index: agent_runner(index, use_llm=False),
+    "agent-llm": lambda index: agent_runner(index, use_llm=True),
+}
+
+
+async def evaluate(cases: list[EvalCase], runner: Runner, index: CatalogIndex) -> list[CaseScore]:
     scores = []
     for case in cases:
         if not case.messages:
             continue  # voice case without a reference transcript yet
-        intents, draft = runner(case)
+        intents, draft = await runner(case)
         scores.append(score_case(case, intents, draft, index))
     return scores
 
@@ -126,7 +177,7 @@ def main() -> None:
 
     index = CatalogIndex.from_csv(CATALOG)
     cases = load_cases(args.cases or default_case_files())
-    scores = evaluate(cases, RUNNERS[args.config](index), index)
+    scores = asyncio.run(evaluate(cases, RUNNERS[args.config](index), index))
     summary, groups = summarize(scores), breakdown(scores)
     meta = {
         "timestamp": datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC"),

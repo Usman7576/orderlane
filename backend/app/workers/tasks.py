@@ -1,5 +1,6 @@
 """Background tasks run by the arq worker."""
 
+from contextlib import AbstractAsyncContextManager, nullcontext
 from typing import Any
 
 import structlog
@@ -10,30 +11,35 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from app.integrations.whatsapp import WhatsAppClient, WhatsAppError
 from app.models import Message
 from app.models.enums import Channel, JobStatus, MessageStatus
-from app.services.inbound import get_or_create_customer, mark_job
+from app.services.inbound import mark_job
+from app.services.processing import ProcessResult, Runtime, process_message
 
 log = structlog.get_logger()
 
 MAX_TRIES = 3
+LOCK_TIMEOUT_SECONDS = 180
 
 
-async def handle_message(session: AsyncSession, message_id: int) -> Message:
-    """Day 1 processing: link the message to a customer and mark it processed.
-    The agent (Day 3) will plug in here."""
-    message = (await session.execute(select(Message).where(Message.id == message_id))).scalar_one()
-    if message.status == MessageStatus.PROCESSED:
-        return message  # already done by an earlier attempt
-    if message.sender:
-        customer = await get_or_create_customer(
-            session, message.business_id, message.sender, message.sender_name
-        )
-        message.customer_id = customer.id
-    message.status = MessageStatus.PROCESSED
-    return message
+def _customer_lock(ctx: dict[str, Any], sender: str | None) -> AbstractAsyncContextManager[Any]:
+    """One message at a time per customer, so two messages never edit the same draft at once."""
+    redis = ctx.get("redis")
+    if redis is None or sender is None:
+        return nullcontext()
+    lock: AbstractAsyncContextManager[Any] = redis.lock(
+        f"lock:sender:{sender}", timeout=LOCK_TIMEOUT_SECONDS, blocking_timeout=LOCK_TIMEOUT_SECONDS
+    )
+    return lock
+
+
+async def _sender(factory: async_sessionmaker[AsyncSession], message_id: int) -> str | None:
+    async with factory() as session:
+        result = await session.execute(select(Message.sender).where(Message.id == message_id))
+        return result.scalar_one_or_none()
 
 
 async def process_inbound_message(ctx: dict[str, Any], message_id: int, job_id: int) -> None:
     factory: async_sessionmaker[AsyncSession] = ctx["session_factory"]
+    runtime: Runtime = ctx["runtime"]
     whatsapp: WhatsAppClient | None = ctx.get("whatsapp")
     attempt: int = ctx.get("job_try", 1)
     bound = log.bind(message_id=message_id, job_id=job_id, attempt=attempt)
@@ -43,10 +49,11 @@ async def process_inbound_message(ctx: dict[str, Any], message_id: int, job_id: 
         await session.commit()
 
     try:
-        async with factory() as session:
-            message = await handle_message(session, message_id)
+        async with _customer_lock(ctx, await _sender(factory, message_id)), factory() as session:
+            result: ProcessResult = await process_message(session, message_id, runtime)
             await mark_job(session, job_id, JobStatus.DONE)
             await session.commit()
+            message = await session.get_one(Message, message_id)
             channel, external_id = message.channel, message.external_id
     except Exception as exc:
         bound.exception("job.failed")
@@ -56,15 +63,13 @@ async def process_inbound_message(ctx: dict[str, Any], message_id: int, job_id: 
                 await session.commit()
                 raise Retry(defer=2**attempt) from exc
             await mark_job(session, job_id, JobStatus.FAILED, error=str(exc)[:1000])
-            message = (
-                await session.execute(select(Message).where(Message.id == message_id))
-            ).scalar_one()
+            message = await session.get_one(Message, message_id)
             message.status = MessageStatus.FAILED
             message.error = str(exc)[:1000]
             await session.commit()
         return
 
-    bound.info("job.done")
+    bound.info("job.done", skipped=result.skipped, paused=result.paused)
     # Blue ticks are a nicety; a failure here must not fail the job.
     if whatsapp and channel == Channel.WHATSAPP and external_id and ctx.get("mark_as_read"):
         try:

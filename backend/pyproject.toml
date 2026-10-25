@@ -16,6 +16,10 @@ dependencies = [
     "structlog>=24.1",
     "pwdlib[argon2]>=0.2",
     "rapidfuzz>=3.9",
+    "langgraph>=0.2",
+    "langgraph-checkpoint-postgres>=2.0",
+    "openai>=1.50",
+    "psycopg[binary,pool]>=3.2",
 ]
 
 [dependency-groups]

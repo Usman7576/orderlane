@@ -16,6 +16,10 @@ class DraftLine:
     needs_review: bool = False  # ambiguous product, unclear quantity, unit assumed...
     issues: tuple[str, ...] = ()
     candidates: tuple[str, ...] = ()
+    method: str | None = None  # how the product was matched: alias, fuzzy, llm, staff
+    confidence: float | None = None
+    unit_price: Decimal | None = None  # filled by the business checks
+    line_total: Decimal | None = None
 
 
 @dataclass(frozen=True)

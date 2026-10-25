@@ -29,11 +29,40 @@ class Settings(BaseSettings):
     wa_verify_token: SecretStr = SecretStr("")
     wa_mark_as_read: bool = True
 
-    # Agent thresholds (used from Day 2 onwards)
+    # Azure OpenAI
+    llm_provider: str = "azure"  # azure | rules (no LLM: rules pipeline only)
+    azure_openai_endpoint: str = ""
+    azure_openai_api_key: SecretStr = SecretStr("")
+    azure_openai_api_version: str = "2024-10-21"
+    azure_openai_deployment_small: str = ""
+    azure_openai_deployment_large: str = ""
+    # Rough USD per 1M tokens, for cost estimates in agent_runs (set to your model's price).
+    llm_price_input_per_m: float = 0.15
+    llm_price_output_per_m: float = 0.60
+
+    # Azure AI Speech
+    azure_speech_key: SecretStr = SecretStr("")
+    azure_speech_region: str = ""
+    speech_languages: str = "ur-PK,en-US"
+
+    # Agent thresholds
     match_confidence_min: float = 0.85
-    fuzzy_accept: float = 0.92
+    fuzzy_accept: float = 0.85
     review_above_total: float = 100_000
     confirm_debounce_seconds: int = 20
+
+    @property
+    def llm_enabled(self) -> bool:
+        return (
+            self.llm_provider == "azure"
+            and bool(self.azure_openai_endpoint)
+            and bool(self.azure_openai_api_key.get_secret_value())
+            and bool(self.azure_openai_deployment_small)
+        )
+
+    @property
+    def speech_enabled(self) -> bool:
+        return bool(self.azure_speech_key.get_secret_value() and self.azure_speech_region)
 
     @property
     def is_dev(self) -> bool:
