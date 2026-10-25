@@ -1,0 +1,9 @@
+wa_phone,name,price_tier,credit_limit,opening_balance,is_new
+923000000101,Al-Madina General Store,A,150000,42000,false
+923000000102,Bismillah Kiryana,A,80000,71000,false
+923000000103,Rehman Super Mart,B,400000,120000,false
+923000000104,Ghousia Store,A,60000,0,false
+923000000105,Al-Noor Mart,B,300000,15000,false
+923000000106,City Cash & Carry,B,600000,250000,false
+923000000107,Faisal General Store,A,100000,99000,false
+923000000108,New Star Kiryana,A,50000,0,true

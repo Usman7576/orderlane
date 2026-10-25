@@ -1,0 +1,3 @@
+# Raw form exports may contain personal data; keep them out of git.
+*
+!.gitignore

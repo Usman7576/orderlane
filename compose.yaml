@@ -1,0 +1,77 @@
+# Local development: `docker compose up --build`
+# API: http://localhost:8000 (docs at /docs)
+
+x-backend: &backend
+  build:
+    context: ./backend
+    args:
+      INSTALL_DEV: "true"
+  env_file:
+    - path: .env
+      required: false
+  environment:
+    DATABASE_URL: postgresql+asyncpg://orderlane:orderlane@postgres:5432/orderlane
+    TEST_DATABASE_URL: postgresql+asyncpg://orderlane:orderlane@postgres:5432/orderlane_test
+    REDIS_URL: redis://redis:6379/0
+    STORAGE_DIR: /app/storage
+  volumes:
+    - ./backend:/app
+    - storage:/app/storage
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: orderlane
+      POSTGRES_PASSWORD: orderlane
+      POSTGRES_DB: orderlane
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orderlane -d orderlane"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    <<: *backend
+    command: alembic upgrade head
+    restart: "no"
+
+  api:
+    <<: *backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  worker:
+    <<: *backend
+    command: arq app.workers.main.WorkerSettings --watch app
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:
+  storage:

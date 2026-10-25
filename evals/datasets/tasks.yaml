@@ -1,0 +1,261 @@
+# Shopping tasks shown to volunteers (see docs/dataset-form.md).
+# Each task's "gold" is the correct answer, so most labeling is already done:
+# you only check that the person did what the task asked.
+#
+# intents: the expected intent of each message the person sends, in order.
+# final_lines: the correct open order after all messages (empty if cancelled or a question).
+# Quantities are compared in base units (pieces) by the evaluator, so
+# "half a carton of 12" and "6 pieces" both count as correct.
+# sku: null means the request is ambiguous and the correct outcome is staff review.
+
+- id: A01
+  form: A
+  channel: text
+  instruction: Order 5 cartons of the big (950 gram) Tapal Danedar tea.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: TAP-DAN-950, unit: carton, qty: 5}
+
+- id: A02
+  form: A
+  channel: text
+  instruction: Order 2 dozen half-kilo Surf Excel packs and 1 dozen Lux soap.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: SRF-EXC-500, unit: dozen, qty: 2}
+      - {sku: LUX-SOP-130, unit: dozen, qty: 1}
+
+- id: A03
+  form: A
+  channel: text
+  instruction: Order 3 tins of 5-litre Dalda cooking oil and 1 carton of 1-litre Dalda oil pouches.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: DAL-OIL-5L, unit: piece, qty: 3}
+      - {sku: DAL-OIL-1L, unit: carton, qty: 1}
+
+- id: A04
+  form: A
+  channel: text
+  instruction: >-
+    Send your order as 2 separate messages. First message: 10 bags of 10 kg Sunridge atta.
+    Second message: add 2 bags (50 kg each) of sugar.
+  gold:
+    intents: [new_order, add]
+    final_lines:
+      - {sku: SUN-ATA-10KG, unit: piece, qty: 10}
+      - {sku: GEN-SUG-50KG, unit: piece, qty: 2}
+
+- id: A05
+  form: A
+  channel: text
+  instruction: >-
+    Order 4 cartons of Olpers 1-litre milk. Then send a second message changing it to 6 cartons.
+  gold:
+    intents: [new_order, modify]
+    final_lines:
+      - {sku: OLP-MLK-1L, unit: carton, qty: 6}
+
+- id: A06
+  form: A
+  channel: text
+  instruction: Ask the shop the price of 1 kg Dalda ghee.
+  gold:
+    intents: [question]
+    question_about: [DAL-GHE-1KG]
+    final_lines: []
+
+- id: A07
+  form: A
+  channel: text
+  instruction: Order 1 box each of small Lay's masala chips, Kurkure and Slanty.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: LAY-MSL-SML, unit: box, qty: 1}
+      - {sku: KUR-CHT-SML, unit: box, qty: 1}
+      - {sku: SLN-SML, unit: box, qty: 1}
+
+- id: A08
+  form: A
+  channel: text
+  instruction: >-
+    Order 2 dozen Shan biryani masala, 1 dozen Shan qorma masala, 2 dozen National salt,
+    1 dozen National red chilli powder and 1 dozen National haldi, all in one message.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: SHN-BRY-60, unit: dozen, qty: 2}
+      - {sku: SHN-QRM-50, unit: dozen, qty: 1}
+      - {sku: NAT-SLT-800, unit: dozen, qty: 2}
+      - {sku: NAT-RCH-200, unit: dozen, qty: 1}
+      - {sku: NAT-HLD-200, unit: dozen, qty: 1}
+
+- id: A09
+  form: A
+  channel: text
+  instruction: >-
+    Order 2 cartons of 1.5-litre Pepsi. Then send another message cancelling the whole order.
+  gold:
+    intents: [new_order, cancel]
+    final_lines: []
+
+- id: A10
+  form: A
+  channel: voice
+  instruction: Voice note ordering 3 cartons of 475 gram Tapal Danedar and 2 dozen Colgate toothpaste.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: TAP-DAN-475, unit: carton, qty: 3}
+      - {sku: CLG-TPT-150, unit: dozen, qty: 2}
+
+- id: A11
+  form: A
+  channel: voice
+  instruction: Voice note ordering 5 bags of 5 kg Guard basmati rice and 2 cartons of 1.5-litre Nestle water.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: GRD-RIC-5KG, unit: piece, qty: 5}
+      - {sku: NES-WTR-1500, unit: carton, qty: 2}
+
+- id: A12
+  form: A
+  channel: voice
+  instruction: >-
+    Voice note ordering 1 carton of 1-litre Habib oil, 1 carton of Sufi ghee and 1 dozen Harpic.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: HAB-OIL-1L, unit: carton, qty: 1}
+      - {sku: SUF-GHE-1KG, unit: carton, qty: 1}
+      - {sku: HRP-TLT-500, unit: dozen, qty: 1}
+
+- id: B01
+  form: B
+  channel: text
+  instruction: Order 24 bars of Lifebuoy soap. Write the number of bars, not dozens.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: LFB-SOP-130, unit: piece, qty: 24}
+
+- id: B02
+  form: B
+  channel: text
+  instruction: Order half a carton of 1-litre Milkpak.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: NES-MPK-1L, unit: piece, qty: 6}
+
+- id: B03
+  form: B
+  channel: text
+  instruction: >-
+    Order 2 cartons of 1.5-litre Coke. Then, in a new message, add 1 carton of Sprite
+    and 1 carton of 7Up.
+  gold:
+    intents: [new_order, add]
+    final_lines:
+      - {sku: COK-1500, unit: carton, qty: 2}
+      - {sku: SPR-1500, unit: carton, qty: 1}
+      - {sku: 7UP-1500, unit: carton, qty: 1}
+
+- id: B04
+  form: B
+  channel: text
+  instruction: >-
+    Order 1 dozen Sunsilk shampoo and 1 dozen Head & Shoulders shampoo. Then send a message
+    removing the Sunsilk.
+  gold:
+    intents: [new_order, modify]
+    final_lines:
+      - {sku: HNS-SHP-360, unit: dozen, qty: 1}
+
+- id: B05
+  form: B
+  channel: text
+  instruction: Ask whether Nido 390 gram is in stock.
+  gold:
+    intents: [question]
+    question_about: [NES-NID-390]
+    final_lines: []
+
+- id: B06
+  form: B
+  channel: text
+  instruction: Complain that yesterday's delivery had a leaking oil tin.
+  gold:
+    intents: [other]
+    final_lines: []
+
+- id: B07
+  form: B
+  channel: text
+  instruction: >-
+    Order 10 packets of matches and 2 dozen Vim bars. Type it the way you would if you were
+    in a hurry (short forms are fine).
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: GEN-MCH-BOX, unit: packet, qty: 10}
+      - {sku: VIM-BAR-STD, unit: dozen, qty: 2}
+
+- id: B08
+  form: B
+  channel: text
+  instruction: Order 1 dozen Ariel detergent without saying the size.
+  gold:
+    intents: [new_order]
+    expected_route: staff_review
+    final_lines:
+      - {sku: null, mention: ariel, unit: dozen, qty: 1}
+
+- id: B09
+  form: B
+  channel: voice
+  instruction: Voice note ordering 2 cartons of 950 gram Lipton Yellow Label and 1 dozen Tang.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: LIP-YEL-950, unit: carton, qty: 2}
+      - {sku: TNG-ORG-750, unit: dozen, qty: 1}
+
+- id: B10
+  form: B
+  channel: voice
+  instruction: >-
+    Voice note, in your most natural style, ordering 3 bags of 5 kg Falak rice and
+    5 packets (1 kg each) of masoor daal.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: FLK-RIC-5KG, unit: piece, qty: 3}
+      - {sku: GEN-MSR-1KG, unit: piece, qty: 5}
+
+- id: B11
+  form: B
+  channel: voice
+  instruction: Voice note asking how much money you currently owe the shop.
+  gold:
+    intents: [question]
+    question_about: [balance]
+    final_lines: []
+
+- id: B12
+  form: B
+  channel: voice
+  instruction: >-
+    Voice note ordering 2 boxes of Sooper biscuit ticky packs, 2 boxes of Prince ticky packs
+    and 1 dozen Rafhan jelly.
+  gold:
+    intents: [new_order]
+    final_lines:
+      - {sku: PFR-SPR-TKY, unit: box, qty: 2}
+      - {sku: LU-PRC-TKY, unit: box, qty: 2}
+      - {sku: RFH-JLY-80, unit: dozen, qty: 1}

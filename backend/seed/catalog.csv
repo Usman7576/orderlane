@@ -1,0 +1,80 @@
+sku,name,brand,category,default_unit,units,price_a,stock_pieces,aliases
+TAP-DAN-950,Tapal Danedar Tea 950g,Tapal,Tea,carton,carton:12,1850,240,tapal danedar 950|tapal 950|danedar bara|tapal bara pack|danedar 950
+TAP-DAN-475,Tapal Danedar Tea 475g,Tapal,Tea,carton,carton:24,950,360,tapal danedar 475|tapal 475|danedar chota|danedar half kg
+TAP-DAN-190,Tapal Danedar Tea 190g,Tapal,Tea,dozen,dozen:12;carton:48,390,600,tapal 190|danedar 190|tapal chota pack
+TAP-FAM-900,Tapal Family Mixture Tea 900g,Tapal,Tea,carton,carton:12,1700,120,family mixture|tapal family|family mix 900
+TAP-MEZ-430,Tapal Mezban Tea 430g,Tapal,Tea,carton,carton:24,820,200,mezban|tapal mezban
+LIP-YEL-950,Lipton Yellow Label Tea 950g,Lipton,Tea,carton,carton:12,1900,180,lipton yellow label|lipton 950|yellow label bara
+LIP-YEL-475,Lipton Yellow Label Tea 475g,Lipton,Tea,carton,carton:24,980,240,lipton 475|yellow label chota
+VIT-TEA-900,Vital Tea 900g,Vital,Tea,carton,carton:12,1600,120,vital tea|vital 900
+NES-MPK-1L,Nestle Milkpak 1 Litre,Nestle,Dairy,carton,carton:12,290,600,milkpak 1 litre|milkpak liter|nestle doodh
+NES-MPK-250,Nestle Milkpak 250ml,Nestle,Dairy,carton,carton:24,80,480,milkpak chota|milkpak 250|pao doodh
+OLP-MLK-1L,Olpers Milk 1 Litre,Olpers,Dairy,carton,carton:12,285,480,olpers|olpers doodh|olpers 1 liter
+HAL-TWH-1L,Haleeb Tea Whitener 1 Litre,Haleeb,Dairy,carton,carton:12,260,240,haleeb|tea whitener|haleeb 1 litre
+NES-EVD-375,Nestle Everyday Powder 375g,Nestle,Dairy,dozen,dozen:12;carton:24,720,240,everyday|everyday powder|nestle everyday
+NES-NID-390,Nestle Nido 390g,Nestle,Dairy,piece,carton:24,1350,96,nido|nido 390|nido doodh
+DAL-OIL-1L,Dalda Cooking Oil 1 Litre Pouch,Dalda,Oil & Ghee,carton,carton:12,620,360,dalda oil|dalda cooking oil|dalda 1 litre|dalda pouch
+DAL-OIL-5L,Dalda Cooking Oil 5 Litre Tin,Dalda,Oil & Ghee,piece,carton:4,3050,80,dalda 5 litre|dalda tin|dalda gallon|dalda 5 liter
+DAL-GHE-1KG,Dalda Banaspati Ghee 1kg,Dalda,Oil & Ghee,carton,carton:12,600,300,dalda ghee|dalda banaspati|dalda ghee 1 kg
+HAB-OIL-1L,Habib Cooking Oil 1 Litre,Habib,Oil & Ghee,carton,carton:12,590,240,habib oil|habib 1 litre|habib cooking oil
+HAB-OIL-5L,Habib Cooking Oil 5 Litre Tin,Habib,Oil & Ghee,piece,carton:4,2900,60,habib 5 litre|habib tin
+SUF-OIL-1L,Sufi Cooking Oil 1 Litre,Sufi,Oil & Ghee,carton,carton:12,610,240,sufi oil|sufi 1 litre
+SUF-GHE-1KG,Sufi Banaspati Ghee 1kg,Sufi,Oil & Ghee,carton,carton:12,590,240,sufi ghee|sufi banaspati
+EVA-OIL-1L,Eva Cooking Oil 1 Litre,Eva,Oil & Ghee,carton,carton:12,600,180,eva oil|eva 1 litre
+EVA-GHE-1KG,Eva Banaspati Ghee 1kg,Eva,Oil & Ghee,carton,carton:12,580,180,eva ghee|eva banaspati
+GRD-RIC-5KG,Guard Basmati Rice 5kg,Guard,Rice & Flour,piece,,2400,80,guard rice|guard basmati|guard chawal|guard 5 kg
+FLK-RIC-5KG,Falak Sella Rice 5kg,Falak,Rice & Flour,piece,,2100,80,falak rice|falak sella|falak chawal
+SUN-ATA-10KG,Sunridge Chakki Atta 10kg,Sunridge,Rice & Flour,piece,,1450,120,sunridge atta|sunridge 10 kg|atta 10 kilo
+FAU-ATA-10KG,Fauji Chakki Atta 10kg,Fauji,Rice & Flour,piece,,1420,120,fauji atta|fauji 10 kg
+GEN-SUG-50KG,Sugar 50kg Bag,Generic,Sugar,piece,,7400,40,cheeni bori|chini 50 kg|sugar bag|cheeni ki bori|sugar 50 kg
+GEN-SUG-1KG,Sugar 1kg Pack,Generic,Sugar,piece,carton:20,155,400,cheeni 1 kg|chini packet|sugar 1 kilo|cheeni packet
+GEN-MSR-1KG,Daal Masoor 1kg,Generic,Pulses,piece,,340,200,masoor|daal masoor|masoor ki daal|masoor dal
+GEN-CHN-1KG,Daal Chana 1kg,Generic,Pulses,piece,,320,200,chana daal|daal chana|chana dal
+GEN-MNG-1KG,Daal Moong 1kg,Generic,Pulses,piece,,380,160,moong daal|daal moong|moong dal
+SHN-BRY-60,Shan Biryani Masala 60g,Shan,Spices,dozen,dozen:12;carton:72,140,1440,shan biryani|biryani masala|shan biryani masala
+SHN-QRM-50,Shan Qorma Masala 50g,Shan,Spices,dozen,dozen:12;carton:72,130,1080,qorma masala|korma masala|shan qorma|shan korma
+SHN-NHR-60,Shan Nihari Masala 60g,Shan,Spices,dozen,dozen:12;carton:72,135,720,nihari masala|shan nihari
+NAT-BRY-90,National Biryani Masala 90g,National,Spices,dozen,dozen:12;carton:72,150,720,national biryani|national biryani masala
+NAT-SLT-800,National Iodized Salt 800g,National,Spices,dozen,dozen:12;carton:24,70,720,namak|national namak|salt|iodized salt
+NAT-RCH-200,National Red Chilli Powder 200g,National,Spices,dozen,dozen:12,330,360,lal mirch|red chilli|mirch powder|national mirch
+NAT-HLD-200,National Haldi Powder 200g,National,Spices,dozen,dozen:12,260,240,haldi|turmeric|national haldi
+NAT-KCH-800,National Tomato Ketchup 800g,National,Sauces,dozen,dozen:12,420,240,national ketchup|ketchup 800|tomato ketchup|ketchup
+MIT-JAM-450,Mitchell's Mixed Fruit Jam 450g,Mitchell's,Spreads,dozen,dozen:12,520,120,mitchells jam|jam|mixed fruit jam
+SRF-EXC-500,Surf Excel 500g,Surf Excel,Detergent,dozen,dozen:12;carton:24,330,720,surf 500|surf excel 500|surf adha kilo|surf half kg
+SRF-EXC-1KG,Surf Excel 1kg,Surf Excel,Detergent,dozen,dozen:12,640,360,surf 1 kg|surf excel 1 kilo|surf bara|surf 1 kilo
+SRF-EXC-2KG,Surf Excel 2kg,Surf Excel,Detergent,piece,carton:6,1250,120,surf 2 kg|surf excel 2 kilo
+ARL-DET-1KG,Ariel Detergent 1kg,Ariel,Detergent,dozen,dozen:12,720,240,ariel 1 kg|ariel powder 1 kg
+ARL-DET-500,Ariel Detergent 500g,Ariel,Detergent,dozen,dozen:12;carton:24,370,360,ariel 500|ariel chota
+BON-DET-1KG,Bonus Tristar Detergent 1kg,Bonus,Detergent,dozen,dozen:12,450,240,bonus|bonus tristar|bonus 1 kg
+VIM-BAR-STD,Vim Dishwash Bar,Vim,Cleaning,dozen,dozen:12;carton:48,95,960,vim|vim bar|bartan sabun
+MAX-BAR-STD,Max Dishwash Bar,Max,Cleaning,dozen,dozen:12;carton:48,85,720,max bar|max sabun|lemon max
+HRP-TLT-500,Harpic Toilet Cleaner 500ml,Harpic,Cleaning,dozen,dozen:12,380,240,harpic|harpic 500|toilet cleaner
+DTL-LIQ-500,Dettol Antiseptic Liquid 500ml,Dettol,Cleaning,dozen,dozen:12,900,120,dettol liquid|dettol 500|dettol bottle
+LUX-SOP-130,Lux Soap 130g,Lux,Soap,dozen,dozen:12;carton:72,150,1440,lux|lux sabun|lux soap
+LFB-SOP-130,Lifebuoy Soap 130g,Lifebuoy,Soap,dozen,dozen:12;carton:72,135,1440,lifebuoy|lifebuoy sabun|lifeboy
+SFG-SOP-130,Safeguard Soap 130g,Safeguard,Soap,dozen,dozen:12;carton:72,160,1080,safeguard|safeguard sabun|safe guard
+DTL-SOP-130,Dettol Soap 130g,Dettol,Soap,dozen,dozen:12;carton:72,165,720,dettol sabun|dettol soap
+SUN-SHP-360,Sunsilk Shampoo 360ml,Sunsilk,Hair Care,dozen,dozen:12,780,240,sunsilk|sunsilk shampoo|sunsilk 360
+HNS-SHP-360,Head & Shoulders Shampoo 360ml,Head & Shoulders,Hair Care,dozen,dozen:12,1150,180,head and shoulders|head n shoulders|h&s shampoo
+PNT-SHP-360,Pantene Shampoo 360ml,Pantene,Hair Care,dozen,dozen:12,1100,120,pantene|pantene shampoo
+CLG-TPT-150,Colgate Toothpaste 150g,Colgate,Oral Care,dozen,dozen:12;carton:72,340,720,colgate|colgate 150|colgate toothpaste
+CLS-TPT-150,Closeup Toothpaste 150g,Closeup,Oral Care,dozen,dozen:12;carton:72,320,480,closeup|close up|close-up
+LAY-MSL-SML,Lay's Masala Small,Lay's,Snacks,box,box:24,30,960,lays masala|masala chips
+LAY-SLT-SML,Lay's Salted Small,Lay's,Snacks,box,box:24,30,720,lays salted|lays namkeen|salted chips
+KUR-CHT-SML,Kurkure Chutney Chaska Small,Kurkure,Snacks,box,box:24,30,960,kurkure|kurkure chutney
+SLN-SML,Slanty Small,Slanty,Snacks,box,box:24,20,720,slanty
+PFR-SPR-TKY,Peek Freans Sooper Ticky Pack,Peek Freans,Biscuits,box,box:24;carton:144,25,2880,sooper|sooper biscuit|sooper ticky
+LU-PRC-TKY,LU Prince Ticky Pack,LU,Biscuits,box,box:24;carton:144,25,2880,prince|prince biscuit|lu prince
+LU-TUC-TKY,LU Tuc Ticky Pack,LU,Biscuits,box,box:24;carton:144,25,2160,tuc|tuc biscuit
+PFR-CND-TKY,Peek Freans Candi Ticky Pack,Peek Freans,Biscuits,box,box:24;carton:144,25,1440,candi|candi biscuit
+PEP-1500,Pepsi 1.5 Litre,Pepsi,Beverages,carton,carton:6,200,360,pepsi 1.5|pepsi bari bottle|pepsi 1.5 liter|pepsi dairh litre
+PEP-500,Pepsi 500ml,Pepsi,Beverages,carton,carton:12,100,480,pepsi 500|pepsi chota|pepsi half liter
+COK-1500,Coca-Cola 1.5 Litre,Coca-Cola,Beverages,carton,carton:6,200,300,coke 1.5|coca cola 1.5|coke bari bottle|coke
+SPR-1500,Sprite 1.5 Litre,Sprite,Beverages,carton,carton:6,200,240,sprite 1.5|sprite bari|sprite
+7UP-1500,7Up 1.5 Litre,7Up,Beverages,carton,carton:6,200,240,7up 1.5|seven up|7up
+NES-WTR-1500,Nestle Pure Life Water 1.5 Litre,Nestle,Water,carton,carton:6,90,600,nestle pani|nestle water 1.5|pure life|nestle water
+AQF-WTR-1500,Aquafina Water 1.5 Litre,Aquafina,Water,carton,carton:6,90,480,aquafina|aquafina 1.5|aquafina pani
+TNG-ORG-750,Tang Orange 750g,Tang,Beverages,dozen,dozen:12,1250,96,tang|tang orange|tang 750
+RFH-JLY-80,Rafhan Jelly 80g,Rafhan,Desserts,dozen,dozen:12;carton:72,120,288,rafhan jelly|jelly
+KNR-NDL-CHK,Knorr Chicken Noodles,Knorr,Noodles,dozen,dozen:12;carton:48,70,960,knorr noodles|noodles|knorr chicken noodles
+GEN-MCH-BOX,Matchbox,Generic,Household,packet,packet:10;carton:500,5,5000,machis|maachis|matches|tili
