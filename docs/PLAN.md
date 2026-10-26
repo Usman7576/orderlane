@@ -8,6 +8,7 @@
 > - Day 3: intent and extraction are **one** structured LLM call (`interpret`) instead of two, which halves latency and cost; a second call (`choose`) runs only for ambiguous products.
 > - Day 3: Azure Speech's short-audio REST API accepts WhatsApp's OGG/Opus directly, so no ffmpeg conversion is needed (ffmpeg stays in the image as a fallback). `ur-PK` transcripts come back in Urdu script: the LLM reads them, the rules fallback doesn't.
 > - Day 3: business tools have two implementations (PostgreSQL for the worker, in-memory for evaluation), so the evaluation runs the exact same agent graph.
+> - 2026-10-26: speech-to-text is Azure AI Speech (D6), the public demo runs on an Oracle Cloud Always Free VM (D7, section 23), and dashboard login is email and password with server-side sessions (D9, section 24).
 
 **One line:** An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders and invoices for a small wholesaler, with a review dashboard and a measured evaluation.
 
@@ -50,10 +51,10 @@
 | D3 | Languages in the dataset | **English + Roman Urdu/Hindi** (Latin script), plus some Urdu/Hindi voice notes. Change this to the languages your friends actually text in. | |
 | D4 | Currency and number format | **PKR**, no decimals. Change if needed. | |
 | D5 | LLM | **Azure OpenAI**, a small, cheap model for everything at first. Upgrade only the extraction step if the evaluation shows it helps. The exact model depends on what your subscription can deploy (checked on Day 1). | |
-| D6 | Speech-to-text | **Azure AI Speech free tier (F0)**. Fallback: Groq Whisper's free tier. | |
-| D7 | Where the demo runs | **Your laptop with an ngrok static domain** for the WhatsApp webhook. Optional later: Oracle's free VM so recruiters can open a link. | |
+| D6 | Speech-to-text | **Azure AI Speech free tier (F0)**. | **Confirmed 2026-10-26** |
+| D7 | Where the demo runs | Laptop + ngrok for development. **Public demo on an Oracle Cloud Always Free VM** (see section 23). | **Changed 2026-10-26: Oracle VM** |
 | D8 | Tracing | **Our own `agent_runs` and `agent_steps` tables, shown in the dashboard**, plus Langfuse Cloud's free plan as an option. Self-hosted Langfuse needs ClickHouse, MinIO and more, which is too heavy for a laptop. | |
-| D9 | Dashboard login | **Email and password for staff**, with a session cookie. No sign-up page; users are created by a seed script. | |
+| D9 | Dashboard login | **Email and password for staff**, with a session cookie. No sign-up page; users are created by a seed script. Details in section 24. | **Confirmed 2026-10-26** |
 | D10 | How the customer confirms | **WhatsApp reply buttons** ("Confirm" / "Edit"), with typed "1" or "2" also accepted. | |
 | D11 | Dataset size for week 1 | **100 cases**: about 70 text and 30 voice. Grow to 200+ in week 2. | |
 | D12 | GitHub repo | **Public** (free CI minutes, and recruiters can see it). Make it public only once secrets are confirmed out of the history. | |
@@ -664,3 +665,39 @@ Each day ends with a **check** you run yourself, and a **learning checkpoint**: 
 9. What happens when Azure OpenAI is down?
 10. How would you support 100 businesses? What would change?
 11. What are the limitations of an evaluation built on synthetic and volunteer data?
+
+---
+
+## 23. Deployment: Oracle Cloud Always Free VM (decided 2026-10-26)
+
+**Target:** one Ampere A1 (ARM64) VM on Oracle Cloud's Always Free tier, Ubuntu 24.04, running the same Docker Compose stack as development with a production override.
+
+| Concern | Decision | Why |
+|---|---|---|
+| Architecture | ARM64 images. `python:3.12-slim`, `postgres:16-alpine`, `redis:7-alpine` and `caddy` all publish ARM64 builds. | The free VM is ARM. |
+| Images | Built in GitHub Actions on GitHub's ARM64 runners (free for public repos), pushed to **GitHub Container Registry** with the commit SHA as tag. | The VM never builds; a deploy is just a pull, and every running version maps to a commit. |
+| Deploy | A `deploy` job runs only after CI passes on `main`: it connects over SSH with a deploy-only key from GitHub secrets, then runs `docker compose pull && docker compose up -d` and `alembic upgrade head`. | One-click rollback: redeploy an older SHA. |
+| HTTPS and routing | **Caddy** as reverse proxy with automatic Let's Encrypt certificates. Serves the dashboard's static build; `/api` and `/webhooks` go to FastAPI. Same origin, so no CORS. | Meta requires HTTPS for webhooks; Caddy renews certificates on its own. |
+| Domain | A free **DuckDNS** subdomain by default; a custom domain (about $10/year) is optional. | Let's Encrypt needs a hostname. |
+| Network | Only ports 22, 80 and 443 open, in both the Oracle security list **and** the VM's iptables (Oracle's Ubuntu images block ports in iptables by default). PostgreSQL and Redis are never published outside the Docker network. SSH by key only. | Smallest attack surface. |
+| Production compose | `compose.prod.yaml` override: no source mounts, no `--reload`, `restart: unless-stopped`, resource limits, log rotation, health checks. | Development conveniences don't belong in production. |
+| Secrets | `.env` on the VM only (mode 600), never in images or the repo. GitHub secrets hold only the SSH key and host. | |
+| Backups | Nightly `pg_dump` to a compressed file, keeping 7 days, plus a documented restore command. | Demo data survives a bad migration. |
+| Monitoring | `/healthz` and `/readyz`, Docker health checks, plus a free external uptime check. | |
+
+The **Day 7** deliverable becomes: provisioning runbook in `docs/deploy.md`, the production compose file, the Caddyfile, the CI build-and-deploy jobs, and a live demo URL.
+
+## 24. Dashboard authentication (decided 2026-10-26)
+
+Email and password for staff, with a session cookie. Staff accounts are created by the seed script or by an owner; there is no public sign-up.
+
+| Concern | Decision |
+|---|---|
+| Passwords | Argon2id hashes (`pwdlib`), minimum 10 characters. |
+| Sessions | **Server-side sessions** in a `user_sessions` table. The cookie holds a random 256-bit token; only its SHA-256 hash is stored, so a database leak gives no usable sessions. |
+| Cookie | `HttpOnly`, `Secure` (in production), `SameSite=Lax`, path `/`. 12-hour idle timeout, 7-day absolute limit. |
+| CSRF | `SameSite=Lax` plus a double-submit token: the API sets a readable `csrf` cookie, and every non-GET request must echo it in an `X-CSRF-Token` header. |
+| Brute force | Login rate limit per email and per IP (Redis counters): 5 failures in 15 minutes locks that pair for 15 minutes. Errors never reveal whether the email exists. |
+| Logout | Deletes the session row; "log out everywhere" deletes all of the user's sessions. |
+| Authorization | Roles `owner` and `staff`; every query is filtered by the user's `business_id`. |
+| Audit | Logins, failed logins, approvals, rejections and edits are logged with the user ID. |
