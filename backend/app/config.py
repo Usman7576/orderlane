@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     login_max_failures: int = 5
     login_lock_minutes: int = 15
     storage_dir: Path = Path("storage")
+    # Saved offline evaluation results (evals/run.py), shown on the Metrics page.
+    eval_results_dir: Path = Path("../evals/results")
 
     # WhatsApp Cloud API
     wa_graph_version: str = "v23.0"

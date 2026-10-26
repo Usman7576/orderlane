@@ -14,6 +14,7 @@ import { Jobs } from "./pages/Jobs";
 import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { OrderReview } from "./pages/OrderReview";
+import { Metrics } from "./pages/Metrics";
 import { Orders } from "./pages/Orders";
 import { Simulator } from "./pages/Simulator";
 
@@ -51,6 +52,7 @@ const router = createBrowserRouter([
       { path: "/customers", element: <Customers /> },
       { path: "/jobs", element: <Jobs /> },
       { path: "/simulator", element: <Simulator /> },
+      { path: "/metrics", element: <Metrics /> },
       { path: "*", element: <NotFound /> },
     ],
   },

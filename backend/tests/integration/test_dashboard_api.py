@@ -365,3 +365,29 @@ async def test_simulator_messages_use_the_real_pipeline(
         await db_client.get("/api/simulator/conversation", params={"phone": "923001112233"})
     ).json()
     assert [m["body"] for m in convo] == ["2 ctn tapal 950", "Confirm"]
+
+
+# --- Metrics ---
+
+
+async def test_metrics_count_live_orders_and_agent_runs(
+    db_client: httpx.AsyncClient, session_factory: Factory, tmp_path: Path
+) -> None:
+    business_id = await seeded_business(session_factory)
+    await _add_user(session_factory, business_id)
+    for text in ("2 ctn tapal 950", "1 dz lux"):
+        message_id, _ = await save_message(session_factory, business_id, body=text)
+        async with session_factory() as session:
+            await process_message(session, message_id, make_runtime(tmp_path))
+    await _login(db_client)
+
+    response = await db_client.get("/api/metrics", params={"days": 7})
+
+    assert response.status_code == 200
+    live = response.json()["live"]
+    assert live["days"] == 7
+    assert live["orders"] >= 1
+    assert live["agent_runs"] == 2
+    assert live["agent_errors"] == 0
+    assert live["latency_p50_ms"] is not None
+    assert live["match_methods"]  # lines matched by alias or fuzzy
