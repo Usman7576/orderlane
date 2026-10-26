@@ -90,3 +90,5 @@ uv run python -m evals.run --config agent-rules               # agent, LLM off
 uv run python -m evals.run --config agent-llm                 # agent + Azure OpenAI (needs keys)
 uv run python -m evals.run --cases ../evals/datasets/heldout.jsonl   # one dataset only
 ```
+
+The dashboard's **Metrics** page shows the newest saved result of each config, by dataset and category, next to the same numbers from live traffic.

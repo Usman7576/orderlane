@@ -22,6 +22,7 @@
 | 3 | LangGraph agent (interpret, resolve, business checks, save, staff-review pause, reply), Azure OpenAI client, Azure Speech client, run tracing with tokens and cost | Tests with a scripted LLM; agent-rules evaluation equals the rules baseline |
 | 4 | Reply delivery with burst grouping, Confirm/Edit/Cancel buttons, stock reservation, ledger, PDF invoices, staff edit/approve/reject (resumes the paused run) | Tests, CI |
 | 5 | Dashboard API with secure login (Argon2, server-side sessions, CSRF, lockout, audit log) and the React dashboard: Orders, Order review, Catalog, Customers, Failed jobs | 184 tests pass locally in Docker and in CI; every screen checked live in the browser |
+| 6 | 93-case held-out test set (frozen before any run) and `docs/eval-report.md` (rules: 94.6% exact match, 98.6% auto-confirm precision); route security tests that cover every API endpoint automatically; session expiry tests; web chat simulator (real pipeline, no WhatsApp needed); Metrics page (live traffic next to offline results); Playwright UI flow tests with a mocked API, run in CI | Unit and UI tests locally; database tests in CI |
 
 **Also done:**
 - **Live check of the full stack.** It found and fixed: approval replies never being sent (duplicate job IDs), cancelled orders losing their lines, unclear lines not flagged in the inbox, and the worker not reloading code.
@@ -32,8 +33,8 @@
 ### Remaining: Claude (code)
 | Day | Work |
 |---|---|
-| 6 | Volunteer-data evaluation with all baselines and breakdowns, LLM evaluation (`agent-llm`), voice cases with reference transcripts, web chat simulator page, metrics page, Playwright end-to-end test, more security tests, CI smoke evaluation with recorded LLM answers |
-| 7 | Oracle deployment (`compose.prod.yaml`, Caddyfile, ARM64 images on GHCR, deploy job, nightly backups, `docs/deploy.md`), `docs/architecture.md`, `docs/threat-model.md`, `docs/eval-report.md`, final README |
+| 6 (needs your data or keys) | LLM evaluation (`agent-llm`, needs Azure keys); volunteer-data evaluation (needs form responses); voice cases (needs voice notes); CI smoke evaluation with recorded LLM answers (needs one keyed run) |
+| 7 | Oracle deployment (`compose.prod.yaml`, Caddyfile, ARM64 images on GHCR, deploy job, nightly backups, `docs/deploy.md`), `docs/architecture.md`, `docs/threat-model.md`, final README |
 
 ### Remaining: you (manual)
 - [ ] Azure: Speech (F0) and Azure OpenAI with one model deployment; keys in `.env`; budget alerts
@@ -47,7 +48,8 @@
 ### Not verified yet
 - Real Azure OpenAI and Azure Speech calls (tested only with fakes; no keys yet).
 - Real WhatsApp sending and buttons (tested only with a fake client; no Meta app yet).
-- Accuracy on volunteer data: only the 30 development cases exist so far, and those were used while writing the rules.
+- Accuracy on volunteer data: the 93 held-out cases were written by the developer, so real volunteer phrasing may score lower.
+- LLM accuracy: the `agent-llm` evaluation has not run yet.
 
 ---
 
