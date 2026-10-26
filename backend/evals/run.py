@@ -36,6 +36,7 @@ from evals.metrics import CaseScore, as_dict, breakdown, score_case, summarize
 
 SEED = REPO_ROOT / "backend" / "seed"
 CATALOG = SEED / "catalog.csv"
+LF = chr(10)  # write results with Unix line endings on every OS
 LLM_CACHE = REPO_ROOT / "evals" / "cache"
 # A trusted customer with room on their credit limit, so routing reflects understanding,
 # not credit checks.
@@ -197,8 +198,7 @@ def main() -> None:
     if not args.no_save:
         args.out.mkdir(parents=True, exist_ok=True)
         stem = f"{datetime.now(UTC):%Y-%m-%d}-{args.config}"
-        (args.out / f"{stem}.md").write_text(report, encoding="utf-8", newline="
-")
+        (args.out / f"{stem}.md").write_text(report, encoding="utf-8", newline=LF)
         payload = {
             "meta": meta,
             "summary": summary,
@@ -206,8 +206,7 @@ def main() -> None:
             "cases": [as_dict(s) for s in scores],
         }
         (args.out / f"{stem}.json").write_text(
-            json.dumps(payload, indent=2, default=str), encoding="utf-8", newline="
-"
+            json.dumps(payload, indent=2, default=str), encoding="utf-8", newline=LF
         )
         print(f"Saved {args.out / stem}.md and .json")
 
