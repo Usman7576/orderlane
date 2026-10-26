@@ -1,0 +1,4 @@
+# Known false positives, reviewed by hand. Format: <commit>:<file>:<rule>:<line>
+# A word-token variable ("token.number = AMBIGUOUS_NUMBER_WORDS[word]") matched the
+# generic-api-key rule. It is not a secret; the variable was renamed in a later commit.
+0acd339dfe4f2261e90455c883f947e230922871:backend/app/matching/parse.py:generic-api-key:63

@@ -52,18 +52,18 @@ def _tokenize(segment: str) -> list[_Token]:
     tokens: list[_Token] = []
     for i, word in enumerate(words):
         nxt = words[i + 1] if i + 1 < len(words) else ""
-        token = _Token(word)
+        item = _Token(word)
         if (size := Size.from_token(word)) is not None:
-            token.size = size
+            item.size = size
         elif (number := parse_number(word)) is not None:
-            token.number = number
+            item.number = number
         elif word in NUMBER_WORDS:
-            token.number = NUMBER_WORDS[word]
+            item.number = NUMBER_WORDS[word]
         elif word in AMBIGUOUS_NUMBER_WORDS and (nxt in UNIT_WORDS or i == 0):
-            token.number = AMBIGUOUS_NUMBER_WORDS[word]
+            item.number = AMBIGUOUS_NUMBER_WORDS[word]
         elif word in UNIT_WORDS:
-            token.unit = UNIT_WORDS[word]
-        tokens.append(token)
+            item.unit = UNIT_WORDS[word]
+        tokens.append(item)
     return tokens
 
 
@@ -152,8 +152,8 @@ def parse_lines(text: str) -> list[ParsedLine]:
 def parse_quantity(text: str) -> tuple[Decimal | None, str | None]:
     """The first quantity in a message with no product words, e.g. "6 carton kar do"."""
     tokens = _tokenize(clean(text))
-    for i, token in enumerate(tokens):
-        if token.number is not None:
+    for i, item in enumerate(tokens):
+        if item.number is not None:
             unit = tokens[i + 1].unit if i + 1 < len(tokens) else None
-            return token.number, unit
+            return item.number, unit
     return None, None

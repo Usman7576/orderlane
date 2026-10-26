@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Pushes only scan their new commits for secrets; these also scan the whole history.
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -30,7 +34,7 @@ jobs:
       DATABASE_URL: postgresql+asyncpg://orderlane:orderlane@localhost:5432/orderlane_test
       TEST_DATABASE_URL: postgresql+asyncpg://orderlane:orderlane@localhost:5432/orderlane_test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
@@ -48,7 +52,7 @@ jobs:
   secrets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - uses: gitleaks/gitleaks-action@v2
