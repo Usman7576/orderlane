@@ -2,7 +2,31 @@
 
 An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders for a small wholesaler.
 
-> **Status: Day 4 of 7.** The full order loop works: the agent replies on WhatsApp, customers confirm with buttons, confirmed orders reserve stock and get a PDF invoice, and staff can fix, approve or reject held orders. Next: the dashboard and login (Day 5). See [docs/PLAN.md](docs/PLAN.md).
+> **Status: Day 5 of 7.** The full order loop works end to end, and staff now have a dashboard: secure sign-in, an order inbox, a review screen (conversation, editable lines, approve/reject, agent trace), catalog with aliases, customers with balances, and failed jobs. Next: full evaluation, web chat simulator and security tests (Day 6). See [docs/PLAN.md](docs/PLAN.md).
+
+## Staff dashboard
+
+React 19 + TypeScript + Vite, TanStack Query, React Router, Tailwind CSS.
+
+| Screen | What staff do there |
+|---|---|
+| **Orders** | Inbox by status (needs review, waiting for customer, confirmed, cancelled), search by customer or order number |
+| **Order review** | Read the WhatsApp conversation (voice notes with transcripts), fix lines with a product search or one-click suggestions, teach the matcher a new alias, approve or reject, and see the timeline and each agent step with timing, tokens and cost |
+| **Catalog** | Search products by name, SKU, brand or alias; prices per tier and unit; stock; add or remove aliases |
+| **Customers** | Balances against credit limits, ledger, order history |
+| **Failed jobs** | Messages the worker gave up on, with one-click retry |
+
+**Sign-in security:** Argon2id passwords, server-side sessions (only a hash of the token is stored), `HttpOnly` + `SameSite=Lax` cookies, double-submit CSRF tokens on every change, lockout after 5 failed attempts per email and per IP, the same error for wrong passwords and unknown emails, and an audit log of sign-ins and review actions.
+
+Run it in development (with the Docker stack running):
+
+```bash
+cd frontend
+npm install
+npm run dev        # http://localhost:5173, proxies /api to the API on :8000
+```
+
+Sign in with the account the seed script prints (`SEED_ADMIN_EMAIL`, password from `SEED_ADMIN_PASSWORD` or the generated one).
 >
 > This is a portfolio project. It is not used by a real business, and all results come from a volunteer-written evaluation dataset.
 
