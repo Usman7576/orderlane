@@ -69,7 +69,7 @@ export function Catalog() {
                     <th className="px-5 py-3">Product</th>
                     <th className="px-5 py-3">Category</th>
                     <th className="px-5 py-3 text-right">Price (A)</th>
-                    <th className="px-5 py-3 text-right">In stock</th>
+                    <th className="px-5 py-3 text-right" title="Available pieces after reservations">In stock (pcs)</th>
                     <th className="px-5 py-3 text-right">Aliases</th>
                   </tr>
                 </thead>

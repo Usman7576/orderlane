@@ -63,6 +63,7 @@ const ISSUE_LABEL: Record<string, string> = {
   unit_assumed: "Unit assumed",
   unit_not_sold: "Unit not sold",
   no_match: "Product not found",
+  lines_to_check: "Lines to check",
 };
 
 export function issueLabel(code: string): string {

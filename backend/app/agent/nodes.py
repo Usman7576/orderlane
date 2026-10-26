@@ -275,6 +275,9 @@ def _operations(intent: str, resolved: list[dict[str, Any]]) -> list[Operation]:
 
 @traced("update_draft")
 async def update_draft(state: AgentState, runtime: Runtime[AgentDeps]) -> dict[str, Any]:
+    if state["intent"] == "cancel":
+        # Keep the lines: the order is marked cancelled, and staff can still see what it was.
+        return {"draft": state.get("draft", []), "issues": []}
     draft = draft_from_state(state.get("draft", []))
     result = apply_operations(draft, _operations(state["intent"], state.get("resolved", [])))
     return {"draft": draft_to_state(result.draft), "issues": result.warnings}

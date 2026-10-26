@@ -14,8 +14,13 @@ x-backend: &backend
     TEST_DATABASE_URL: postgresql+asyncpg://orderlane:orderlane@postgres:5432/orderlane_test
     REDIS_URL: redis://redis:6379/0
     STORAGE_DIR: /app/storage
+    # Docker Desktop on Windows doesn't forward file events into containers; poll instead,
+    # so the API and worker reload when code changes.
+    WATCHFILES_FORCE_POLLING: "true"
+  # The whole repo is mounted (tests read evals/ next to backend/); code runs from backend/.
+  working_dir: /repo/backend
   volumes:
-    - ./backend:/app
+    - .:/repo
     - storage:/app/storage
   depends_on:
     postgres:
@@ -67,7 +72,9 @@ services:
 
   worker:
     <<: *backend
-    command: arq app.workers.main.WorkerSettings --watch app
+    # watchfiles restarts the whole process on code changes; arq's own --watch only
+    # restarts the worker loop and keeps the old code loaded.
+    command: watchfiles --filter python "arq app.workers.main.WorkerSettings" app
     depends_on:
       migrate:
         condition: service_completed_successfully

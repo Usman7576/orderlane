@@ -164,7 +164,7 @@ async def test_inbox_and_order_detail(
 
     page = (await db_client.get("/api/orders", params={"status": "pending_review"})).json()
     assert page["total"] == 1 and page["counts"]["pending_review"] == 1
-    assert page["items"][0]["issues"] == ["first_order"]
+    assert page["items"][0]["issues"] == ["first_order", "lines_to_check"]
 
     detail = (await db_client.get(f"/api/orders/{order.id}")).json()
     [line] = detail["lines"]

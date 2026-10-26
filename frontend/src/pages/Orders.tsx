@@ -131,7 +131,9 @@ export function Orders() {
                       <Link to={`/orders/${o.id}`} className="group-hover:text-brand-700" onClick={(e) => e.stopPropagation()}>
                         #{o.number}
                       </Link>
-                      <span className="ml-2 text-xs text-ink-400">{o.line_count} items</span>
+                      <span className="ml-2 text-xs text-ink-400">
+                        {o.line_count} {o.line_count === 1 ? "item" : "items"}
+                      </span>
                     </td>
                     <td className="px-5 py-3.5 text-ink-700">{o.customer_name}</td>
                     <td className="px-5 py-3.5">

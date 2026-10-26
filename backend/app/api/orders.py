@@ -196,15 +196,21 @@ async def list_orders(
     rows = (
         await session.execute(base.order_by(Order.updated_at.desc()).limit(limit).offset(offset))
     ).all()
-    line_counts = dict(
-        (
+    line_stats = {
+        order_id: (int(total_lines), int(unchecked))
+        for order_id, total_lines, unchecked in (
             await session.execute(
-                select(OrderLine.order_id, func.count())
+                select(
+                    OrderLine.order_id,
+                    func.count(),
+                    # Lines the agent wasn't sure about have no match method yet.
+                    func.count().filter(OrderLine.match_method.is_(None)),
+                )
                 .where(OrderLine.order_id.in_([o.id for o, _ in rows]))
                 .group_by(OrderLine.order_id)
             )
         ).all()
-    )
+    }
     counts = dict(
         (
             await session.execute(
@@ -223,8 +229,9 @@ async def list_orders(
                 total=o.total,
                 customer_id=o.customer_id,
                 customer_name=name,
-                line_count=line_counts.get(o.id, 0),
-                issues=_issue_codes(o.issues),
+                line_count=line_stats.get(o.id, (0, 0))[0],
+                issues=_issue_codes(o.issues)
+                + (["lines_to_check"] if line_stats.get(o.id, (0, 0))[1] else []),
                 created_at=o.created_at,
                 updated_at=o.updated_at,
             )

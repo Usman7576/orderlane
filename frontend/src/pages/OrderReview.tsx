@@ -249,8 +249,13 @@ function LinesEditor({ order }: { order: OrderDetail }) {
           <li key={line.key} className={cn("px-5 py-4", line.needsReview && !line.changedProduct && "bg-amber-50/50")}>
             <div className="flex flex-wrap items-start gap-3">
               <div className="min-w-0 flex-1">
-                <p className="truncate font-medium text-ink-900">
-                  {line.name ?? <span className="text-amber-700">Choose a product</span>}
+                <p className="flex items-center gap-2 font-medium text-ink-900">
+                  <span className="truncate">
+                    {line.name ?? <span className="text-amber-700">Choose a product</span>}
+                  </span>
+                  {line.name && line.needsReview && !line.changedProduct && (
+                    <Badge tone="amber">Agent's guess: check</Badge>
+                  )}
                 </p>
                 {line.sourceText && <p className="mt-0.5 text-xs text-ink-500">Customer wrote: “{line.sourceText}”</p>}
                 {editable && line.needsReview && !line.changedProduct && line.alternatives.length > 0 && (

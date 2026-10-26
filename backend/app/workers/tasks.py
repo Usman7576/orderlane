@@ -1,5 +1,6 @@
 """Background tasks run by the arq worker."""
 
+import time
 from contextlib import AbstractAsyncContextManager, nullcontext
 from typing import Any
 
@@ -86,7 +87,12 @@ async def process_inbound_message(ctx: dict[str, Any], message_id: int, job_id: 
 
 
 async def schedule_delivery(
-    ctx: dict[str, Any], customer_id: int, after_message_id: int, delay_s: float
+    ctx: dict[str, Any],
+    customer_id: int,
+    after_message_id: int,
+    delay_s: float,
+    *,
+    reason: str = "message",
 ) -> None:
     """Send the customer's queued replies after `delay_s`. Without a queue (tests, scripts)
     they are delivered right away."""
@@ -98,7 +104,14 @@ async def schedule_delivery(
         DELIVER_REPLIES,
         customer_id,
         after_message_id,
-        _job_id=f"deliver:{customer_id}:{after_message_id}",
+        # One delivery per inbound message (a burst collapses into the newest one). Other
+        # reasons, like a staff review, need their own ID: arq silently drops a job whose
+        # ID it has already seen, even after it finished.
+        _job_id=(
+            f"deliver:{customer_id}:{after_message_id}"
+            if reason == "message"
+            else f"deliver:{customer_id}:{reason}:{time.time_ns()}"
+        ),
         _defer_by=delay_s,
     )
 
@@ -147,5 +160,5 @@ async def review_order_task(
         )
         await session.commit()
     if customer_id is not None:
-        await schedule_delivery(ctx, customer_id, last_inbound or 0, 0)
+        await schedule_delivery(ctx, customer_id, last_inbound or 0, 0, reason="review")
     return action
