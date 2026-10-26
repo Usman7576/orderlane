@@ -50,7 +50,8 @@ script = (
  * How to use (about 2 minutes):
  *   1. Open https://script.google.com and click "New project".
  *   2. Delete the sample code, paste this whole file, and click Save.
- *   3. Change WHATSAPP_NUMBER below to the number friends should send voice notes to.
+ *   3. Optional: put your WhatsApp number in WHATSAPP_NUMBER below. Leave it empty if your
+ *      friends already have your number; the form then just says "send them to me".
  *   4. Choose the function "createDatasetForms" in the toolbar and click Run.
  *   5. Allow access when Google asks (it's your own script). If you see "Google hasn't
  *      verified this app", click Advanced, then "Go to ... (unsafe)". This only lets the
@@ -60,7 +61,8 @@ script = (
  * Send Form A to half of your friends and Form B to the other half.
  */
 
-const WHATSAPP_NUMBER = "+92 3XX XXXXXXX"; // <- your WhatsApp number for voice notes
+// Your personal WhatsApp number for voice notes, e.g. "+92 300 1234567". Optional.
+const WHATSAPP_NUMBER = "";
 
 const DATA = """
     + json.dumps(data, indent=2, ensure_ascii=False)
@@ -144,7 +146,9 @@ function buildForm_(version, tasks) {
   form.addPageBreakItem()
     .setTitle("Voice notes")
     .setHelpText(
-      "Please send these as WhatsApp voice notes to " + WHATSAPP_NUMBER + ". Before each one, " +
+      "Please send these as WhatsApp voice notes " +
+        (WHATSAPP_NUMBER ? "to " + WHATSAPP_NUMBER : "to me (the person who sent you this form)") +
+        ". Before each one, " +
         "type the task number (for example " + tasks.voice[0].id + "), then record. Speak " +
         "naturally, as if you were calling in an order. Background noise is fine.\\n\\n" +
         voiceList

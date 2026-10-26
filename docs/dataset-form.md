@@ -17,7 +17,7 @@ There are two versions, **Form A** and **Form B**, with different tasks. Send Fo
 
 1. Open **script.google.com** → **New project**.
 2. Delete the sample code, paste the whole `.gs` file, and click **Save**.
-3. Change `WHATSAPP_NUMBER` at the top to the number friends should send voice notes to.
+3. Optional: put your WhatsApp number in `WHATSAPP_NUMBER` at the top. Leave it empty if friends already have your number; the form then says "send them to me on WhatsApp".
 4. In the toolbar, choose **createDatasetForms** and click **Run**.
 5. Allow access when Google asks. If you see "Google hasn't verified this app": **Advanced** → **Go to … (unsafe)**. It's your own script, and it only creates forms and a sheet in your Drive.
 6. Open **Execution log**. It prints the link to send for each form, the edit links, and the Sheet link.
