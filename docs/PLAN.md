@@ -1,6 +1,6 @@
 # OrderLane: Project Plan
 
-> **Status:** APPROVED on 2026-10-26 with all default decisions (D1–D12). Day 1 is built.
+> **Status:** APPROVED on 2026-10-26 with all default decisions (D1–D12). **Days 1–5 are built**; see **Progress** below.
 > **Changes since approval:**
 > - Docker Compose lives at the repo root (`compose.yaml`) instead of `infra/`, so `docker compose up` works without extra flags.
 > - Day 2: catalog matching runs **in memory** (rapidfuzz over a `CatalogIndex`) instead of querying `pg_trgm`. A wholesaler's catalog is hundreds of products, so this is fast, testable without a database, and lets the evaluation run anywhere. The `pg_trgm` indexes stay for dashboard search and larger catalogs.
@@ -11,6 +11,45 @@
 > - Day 4: the staff approve, reject and edit logic is built as services and worker tasks; their HTTP endpoints arrive on Day 5 together with login, so no unauthenticated endpoint ever exists. Confirmed orders go straight to `invoiced` (the invoice is created in the same transaction). The reply delay defaults to 10 seconds.
 > - Day 5: the frontend uses the current Vite template (React 19, TypeScript 6, oxlint) and React Router 8. UI components are written in the shadcn style by hand instead of through the shadcn CLI, to keep dependencies small. The Playwright end-to-end test and the metrics page move to Day 6, with the evaluation work. Review actions return 202 and the dashboard waits for the worker's result.
 > - 2026-10-26: speech-to-text is Azure AI Speech (D6), the public demo runs on an Oracle Cloud Always Free VM (D7, section 23), and dashboard login is email and password with server-side sessions (D9, section 24).
+
+## Progress (updated 2026-10-26)
+
+### Done
+| Day | What was built | Verified |
+|---|---|---|
+| 1 | WhatsApp webhook (signature check, duplicate-safe), background worker with retries, 19-table schema and migrations, seed catalog (79 products, 8 shops), Docker Compose, CI | Tests, CI |
+| 2 | Rules-only pipeline: normalization (Roman Urdu units, number words, sizes), parser, fuzzy catalog matcher, draft edits; evaluation harness; 30 development cases; Google Form importer | Tests, CI |
+| 3 | LangGraph agent (interpret, resolve, business checks, save, staff-review pause, reply), Azure OpenAI client, Azure Speech client, run tracing with tokens and cost | Tests with a scripted LLM; agent-rules evaluation equals the rules baseline |
+| 4 | Reply delivery with burst grouping, Confirm/Edit/Cancel buttons, stock reservation, ledger, PDF invoices, staff edit/approve/reject (resumes the paused run) | Tests, CI |
+| 5 | Dashboard API with secure login (Argon2, server-side sessions, CSRF, lockout, audit log) and the React dashboard: Orders, Order review, Catalog, Customers, Failed jobs | 184 tests pass locally in Docker and in CI; every screen checked live in the browser |
+
+**Also done:**
+- **Live check of the full stack.** It found and fixed: approval replies never being sent (duplicate job IDs), cancelled orders losing their lines, unclear lines not flagged in the inbox, and the worker not reloading code.
+- **`scripts/replay.py`:** sends demo conversations through the real pipeline.
+- **`tools/google-forms/create_dataset_forms.gs`:** creates Form A, Form B and the responses Sheet in your Google account.
+- **CI:** gitleaks false positive resolved; weekly full-history secrets scan.
+
+### Remaining: Claude (code)
+| Day | Work |
+|---|---|
+| 6 | Volunteer-data evaluation with all baselines and breakdowns, LLM evaluation (`agent-llm`), voice cases with reference transcripts, web chat simulator page, metrics page, Playwright end-to-end test, more security tests, CI smoke evaluation with recorded LLM answers |
+| 7 | Oracle deployment (`compose.prod.yaml`, Caddyfile, ARM64 images on GHCR, deploy job, nightly backups, `docs/deploy.md`), `docs/architecture.md`, `docs/threat-model.md`, `docs/eval-report.md`, final README |
+
+### Remaining: you (manual)
+- [ ] Azure: Speech (F0) and Azure OpenAI with one model deployment; keys in `.env`; budget alerts
+- [ ] Meta WhatsApp app: test number, system user token, app secret, verify token, webhook (with ngrok)
+- [ ] Run the Google Forms script, send Form A and B to friends, collect voice notes on WhatsApp
+- [ ] Export responses (`form_a.csv`, `form_b.csv` into `evals/datasets/raw/`) and voice notes
+- [ ] Day 7: Oracle Cloud account and VM, DuckDNS name, GitHub deploy secrets
+- [ ] Delete CI runs #1 and #2 on GitHub (they keep the old commit that lists Claude in the sidebar cache)
+- [ ] Demo video (2–3 minutes) and `docs/decisions.md` in your own words
+
+### Not verified yet
+- Real Azure OpenAI and Azure Speech calls (tested only with fakes; no keys yet).
+- Real WhatsApp sending and buttons (tested only with a fake client; no Meta app yet).
+- Accuracy on volunteer data: only the 30 development cases exist so far, and those were used while writing the rules.
+
+---
 
 **One line:** An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders and invoices for a small wholesaler, with a review dashboard and a measured evaluation.
 
