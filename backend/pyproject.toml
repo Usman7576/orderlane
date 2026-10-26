@@ -20,6 +20,7 @@ dependencies = [
     "langgraph-checkpoint-postgres>=2.0",
     "openai>=1.50",
     "psycopg[binary,pool]>=3.2",
+    "reportlab>=4.2",
 ]
 
 [dependency-groups]
@@ -51,8 +52,13 @@ packages = ["app", "evals"]
 exclude = ["migrations/"]
 
 [[tool.mypy.overrides]]
-module = ["arq.*"]
+module = ["arq.*", "reportlab.*"]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# ReportLab has no type hints.
+module = ["app.services.invoice_pdf"]
+disallow_untyped_calls = false
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

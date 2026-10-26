@@ -363,15 +363,19 @@ async def staff_review(state: AgentState, runtime: Runtime[AgentDeps]) -> dict[s
     decision = interrupt({"order_id": state.get("order_id"), "issues": state.get("issues", [])})
     deps = runtime.context
     approved = isinstance(decision, dict) and decision.get("action") == "approve"
-    # Staff edits are applied to the saved order before resuming; reload it.
-    draft = await deps.tools.load_draft(state["customer_id"]) if approved else Draft()
-    draft = Draft(tuple(_approved(line) for line in draft.lines))
+    # Staff may have edited lines while the run was paused, so reload the saved order.
+    # A rejected order keeps its lines for the audit trail; only its status changes.
+    draft = await deps.tools.load_draft(state["customer_id"])
+    if approved:
+        draft = Draft(tuple(_approved(line) for line in draft.lines))
     route = ASK_CUSTOMER if approved and draft.lines else CANCELLED
+    priced = [line.line_total for line in draft.lines if line.line_total is not None]
+    total = sum(priced, Decimal(0)) if priced else Decimal(state.get("total", "0"))
     await deps.tools.save_draft(
         state["customer_id"],
         draft,
         status=_STATUS[route],
-        total=Decimal(state.get("total", "0")),
+        total=total,
         issues=[],
         event={"staff_decision": decision},
     )
@@ -379,6 +383,7 @@ async def staff_review(state: AgentState, runtime: Runtime[AgentDeps]) -> dict[s
         "review": decision if isinstance(decision, dict) else None,
         "route": route,
         "draft": draft_to_state(draft),
+        "total": str(total),
     }
 
 

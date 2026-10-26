@@ -1,16 +1,11 @@
 from decimal import Decimal
 from pathlib import Path
-from typing import Any
 
 import pytest
 from arq import Retry
-from langgraph.checkpoint.memory import InMemorySaver
 from sqlalchemy import func, select
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.agent.graph import build_graph
-from app.agent.state import AgentSettings
-from app.integrations.speech import Transcript
 from app.models import (
     AgentRun,
     AgentStep,
@@ -22,111 +17,34 @@ from app.models import (
     OrderLine,
     Product,
 )
-from app.models.enums import Channel, Direction, JobStatus, MessageStatus, MessageType, OrderStatus
-from app.schemas.inbound import InboundMessage
-from app.services.inbound import save_inbound
-from app.services.processing import CatalogCache, ProcessResult, Runtime
-from app.services.seeding import seed
+from app.models.enums import Direction, JobStatus, MessageStatus, OrderStatus
+from app.services.processing import ProcessResult, Runtime
 from app.workers import tasks
 from app.workers.tasks import process_inbound_message
+from tests.integration.helpers import (
+    Factory,
+    FakeSpeech,
+    fake_whatsapp,
+    make_runtime,
+    save_message,
+    seeded_business,
+    worker_ctx,
+)
 
 pytestmark = pytest.mark.db
-
-Factory = async_sessionmaker[AsyncSession]
-SEED_DIR = Path(__file__).resolve().parents[2] / "seed"
-TRUSTED_PHONE = "923000000106"  # City Cash & Carry in customers.csv
-
-
-class FakeWhatsApp:
-    def __init__(self) -> None:
-        self.read: list[str] = []
-
-    async def download_media(self, media_id: str) -> tuple[bytes, str]:
-        return b"OggS-fake", "audio/ogg; codecs=opus"
-
-    async def mark_as_read(self, message_id: str) -> None:
-        self.read.append(message_id)
-
-
-class FakeSpeech:
-    def __init__(self, text: str) -> None:
-        self.text = text
-
-    async def transcribe(self, audio: bytes, mime_type: str) -> Transcript | None:
-        return Transcript(self.text, "ur-PK", 0.9)
-
-
-def _runtime(tmp_path: Path, speech: FakeSpeech | None = None) -> Runtime:
-    whatsapp = FakeWhatsApp()
-    return Runtime(
-        graph=build_graph(InMemorySaver()),
-        catalog=CatalogCache(),
-        llm=None,
-        speech=speech,
-        whatsapp=whatsapp,  # type: ignore[arg-type]
-        storage_dir=tmp_path,
-        settings=AgentSettings(),
-    )
-
-
-async def _seeded_business(factory: Factory) -> int:
-    async with factory() as session:
-        result = await seed(
-            session,
-            SEED_DIR,
-            wa_phone_number_id="PN-W",
-            admin_email="a@test.test",
-            admin_password_hash=None,
-        )
-    return result.business_id
-
-
-async def _save(
-    factory: Factory,
-    business_id: int,
-    *,
-    body: str | None = None,
-    audio: str | None = None,
-    sender: str = TRUSTED_PHONE,
-    external_id: str = "wamid.W1",
-) -> tuple[int, int]:
-    async with factory() as session:
-        saved = await save_inbound(
-            session,
-            business_id,
-            InboundMessage(
-                channel=Channel.WHATSAPP,
-                external_id=external_id,
-                sender=sender,
-                sender_name="Shop",
-                type=MessageType.AUDIO if audio else MessageType.TEXT,
-                body=body,
-                media_ref=audio,
-            ),
-        )
-        await session.commit()
-    assert saved is not None
-    return saved.message_id, saved.job_id
-
-
-def _ctx(factory: Factory, runtime: Runtime, job_try: int = 1) -> dict[str, Any]:
-    return {
-        "session_factory": factory,
-        "runtime": runtime,
-        "whatsapp": runtime.whatsapp,
-        "mark_as_read": True,
-        "job_try": job_try,
-    }
 
 
 async def test_text_order_creates_draft_trace_and_reply(
     session_factory: Factory, tmp_path: Path
 ) -> None:
-    business_id = await _seeded_business(session_factory)
-    message_id, job_id = await _save(session_factory, business_id, body="2 ctn tapal 950")
-    runtime = _runtime(tmp_path)
+    business_id = await seeded_business(session_factory)
+    message_id, job_id = await save_message(
+        session_factory, business_id, body="2 ctn tapal 950", external_id="wamid.W1"
+    )
+    inbound_external_id = "wamid.W1"
+    runtime = make_runtime(tmp_path)
 
-    await process_inbound_message(_ctx(session_factory, runtime), message_id, job_id)
+    await process_inbound_message(worker_ctx(session_factory, runtime), message_id, job_id)
 
     async with session_factory() as session:
         order = (await session.execute(select(Order))).scalar_one()
@@ -151,19 +69,20 @@ async def test_text_order_creates_draft_trace_and_reply(
         "rules",
     )
     assert steps[0] == "interpret" and "save_order" in steps
-    assert reply.status == MessageStatus.QUEUED and "Order #1001" in (reply.body or "")
+    assert reply.status == MessageStatus.SENT and "Order #1001" in (reply.body or "")
     assert job.status == JobStatus.DONE
-    assert runtime.whatsapp.read == ["wamid.W1"]  # type: ignore[union-attr]
+    assert fake_whatsapp(runtime).read == [inbound_external_id]
+    assert fake_whatsapp(runtime).sent[0]["kind"] == "buttons"  # Confirm / Edit / Cancel
 
 
 async def test_voice_note_is_transcribed_then_understood(
     session_factory: Factory, tmp_path: Path
 ) -> None:
-    business_id = await _seeded_business(session_factory)
-    message_id, job_id = await _save(session_factory, business_id, audio="MEDIA-1")
-    runtime = _runtime(tmp_path, FakeSpeech("teen carton olpers"))
+    business_id = await seeded_business(session_factory)
+    message_id, job_id = await save_message(session_factory, business_id, audio="MEDIA-1")
+    runtime = make_runtime(tmp_path, FakeSpeech("teen carton olpers"))
 
-    await process_inbound_message(_ctx(session_factory, runtime), message_id, job_id)
+    await process_inbound_message(worker_ctx(session_factory, runtime), message_id, job_id)
 
     async with session_factory() as session:
         message = await session.get_one(Message, message_id)
@@ -176,9 +95,11 @@ async def test_voice_note_is_transcribed_then_understood(
 async def test_voice_note_without_speech_is_skipped_not_failed(
     session_factory: Factory, tmp_path: Path
 ) -> None:
-    business_id = await _seeded_business(session_factory)
-    message_id, job_id = await _save(session_factory, business_id, audio="MEDIA-2")
-    await process_inbound_message(_ctx(session_factory, _runtime(tmp_path)), message_id, job_id)
+    business_id = await seeded_business(session_factory)
+    message_id, job_id = await save_message(session_factory, business_id, audio="MEDIA-2")
+    await process_inbound_message(
+        worker_ctx(session_factory, make_runtime(tmp_path)), message_id, job_id
+    )
     async with session_factory() as session:
         message = await session.get_one(Message, message_id)
     assert message.status == MessageStatus.PROCESSED
@@ -188,11 +109,13 @@ async def test_voice_note_without_speech_is_skipped_not_failed(
 async def test_new_sender_becomes_customer_and_first_order_is_reviewed(
     session_factory: Factory, tmp_path: Path
 ) -> None:
-    business_id = await _seeded_business(session_factory)
-    message_id, job_id = await _save(
+    business_id = await seeded_business(session_factory)
+    message_id, job_id = await save_message(
         session_factory, business_id, body="1 ctn tapal 950", sender="923009999999"
     )
-    await process_inbound_message(_ctx(session_factory, _runtime(tmp_path)), message_id, job_id)
+    await process_inbound_message(
+        worker_ctx(session_factory, make_runtime(tmp_path)), message_id, job_id
+    )
     async with session_factory() as session:
         customer = (
             await session.execute(select(Customer).where(Customer.wa_phone == "923009999999"))
@@ -205,11 +128,11 @@ async def test_new_sender_becomes_customer_and_first_order_is_reviewed(
 
 
 async def test_reprocessing_is_harmless(session_factory: Factory, tmp_path: Path) -> None:
-    business_id = await _seeded_business(session_factory)
-    message_id, job_id = await _save(session_factory, business_id, body="2 ctn tapal 950")
-    runtime = _runtime(tmp_path)
-    await process_inbound_message(_ctx(session_factory, runtime), message_id, job_id)
-    await process_inbound_message(_ctx(session_factory, runtime), message_id, job_id)
+    business_id = await seeded_business(session_factory)
+    message_id, job_id = await save_message(session_factory, business_id, body="2 ctn tapal 950")
+    runtime = make_runtime(tmp_path)
+    await process_inbound_message(worker_ctx(session_factory, runtime), message_id, job_id)
+    await process_inbound_message(worker_ctx(session_factory, runtime), message_id, job_id)
     async with session_factory() as session:
         orders = (await session.execute(select(func.count()).select_from(Order))).scalar_one()
         runs = (await session.execute(select(func.count()).select_from(AgentRun))).scalar_one()
@@ -224,22 +147,24 @@ async def test_failure_retries_then_gives_up(
         session.add(business)
         await session.commit()
         business_id = business.id
-    message_id, job_id = await _save(session_factory, business_id, body="hi")
+    message_id, job_id = await save_message(session_factory, business_id, body="hi")
 
     async def boom(session: AsyncSession, message_id: int, runtime: Runtime) -> ProcessResult:
         raise RuntimeError("database exploded")
 
     monkeypatch.setattr(tasks, "process_message", boom)
-    runtime = _runtime(tmp_path)
+    runtime = make_runtime(tmp_path)
 
     with pytest.raises(Retry):
-        await process_inbound_message(_ctx(session_factory, runtime, job_try=1), message_id, job_id)
+        await process_inbound_message(
+            worker_ctx(session_factory, runtime, job_try=1), message_id, job_id
+        )
     async with session_factory() as session:
         job = await session.get_one(Job, job_id)
     assert job.status == JobStatus.QUEUED
 
     await process_inbound_message(
-        _ctx(session_factory, runtime, job_try=tasks.MAX_TRIES), message_id, job_id
+        worker_ctx(session_factory, runtime, job_try=tasks.MAX_TRIES), message_id, job_id
     )
     async with session_factory() as session:
         job = await session.get_one(Job, job_id)

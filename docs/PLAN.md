@@ -8,6 +8,7 @@
 > - Day 3: intent and extraction are **one** structured LLM call (`interpret`) instead of two, which halves latency and cost; a second call (`choose`) runs only for ambiguous products.
 > - Day 3: Azure Speech's short-audio REST API accepts WhatsApp's OGG/Opus directly, so no ffmpeg conversion is needed (ffmpeg stays in the image as a fallback). `ur-PK` transcripts come back in Urdu script: the LLM reads them, the rules fallback doesn't.
 > - Day 3: business tools have two implementations (PostgreSQL for the worker, in-memory for evaluation), so the evaluation runs the exact same agent graph.
+> - Day 4: the staff approve, reject and edit logic is built as services and worker tasks; their HTTP endpoints arrive on Day 5 together with login, so no unauthenticated endpoint ever exists. Confirmed orders go straight to `invoiced` (the invoice is created in the same transaction). The reply delay defaults to 10 seconds.
 > - 2026-10-26: speech-to-text is Azure AI Speech (D6), the public demo runs on an Oracle Cloud Always Free VM (D7, section 23), and dashboard login is email and password with server-side sessions (D9, section 24).
 
 **One line:** An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders and invoices for a small wholesaler, with a review dashboard and a measured evaluation.

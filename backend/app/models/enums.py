@@ -35,6 +35,7 @@ class MessageStatus(StrEnum):
     SENT = "sent"
     DELIVERED = "delivered"
     READ = "read"
+    SKIPPED = "skipped"  # outbound, replaced by a newer reply before it was sent
 
 
 class JobStatus(StrEnum):
@@ -77,3 +78,26 @@ class LedgerType(StrEnum):
     INVOICE = "invoice"
     PAYMENT = "payment"
     ADJUSTMENT = "adjustment"
+
+
+class ReplyKind(StrEnum):
+    """What an outbound message is, so a burst of replies can be reduced to the latest."""
+
+    CONFIRMATION = "confirmation"  # order summary with Confirm / Edit / Cancel buttons
+    REVIEW_HOLD = "review_hold"
+    EDIT_PROMPT = "edit_prompt"
+    CANCELLED = "cancelled"
+    ANSWER = "answer"
+    HANDOFF = "handoff"
+    ORDER_CONFIRMED = "order_confirmed"
+    INVOICE = "invoice"
+    INFO = "info"
+
+
+# Replies about the state of the open order: only the newest one is worth sending.
+ORDER_STATE_REPLIES = {
+    ReplyKind.CONFIRMATION,
+    ReplyKind.REVIEW_HOLD,
+    ReplyKind.EDIT_PROMPT,
+    ReplyKind.CANCELLED,
+}

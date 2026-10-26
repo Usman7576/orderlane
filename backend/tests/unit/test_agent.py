@@ -144,7 +144,7 @@ async def test_review_pause_then_approve(graph: AgentGraph, index: CatalogIndex)
 
     done = await resume_review(graph, deps, thread_id="t7", decision={"action": "approve"})
     assert not done.paused and done.state["route"] == "ask_customer"
-    assert "Reply 1 to confirm" in (done.reply or "")
+    assert "reply 1 to confirm" in (done.reply or "")
 
 
 async def test_review_pause_then_reject(graph: AgentGraph, index: CatalogIndex) -> None:

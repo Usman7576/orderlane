@@ -49,7 +49,8 @@ class Settings(BaseSettings):
     match_confidence_min: float = 0.85
     fuzzy_accept: float = 0.85
     review_above_total: float = 100_000
-    confirm_debounce_seconds: int = 20
+    # Wait this long after a customer's last message before replying, to answer a burst once.
+    confirm_debounce_seconds: int = 10
 
     @property
     def llm_enabled(self) -> bool:

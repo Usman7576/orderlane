@@ -23,6 +23,8 @@ class Order(TimestampMixin, Base):
     total: Mapped[Decimal] = mapped_column(Numeric(12, 2), default=Decimal("0"))
     issues: Mapped[list[dict[str, Any]]] = mapped_column(JSONB, default=list)
     confirmed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # LangGraph thread paused for staff review of this order, resumed on approve/reject.
+    review_thread_id: Mapped[str | None] = mapped_column(String(128))
 
     lines: Mapped[list["OrderLine"]] = relationship(
         back_populates="order", cascade="all, delete-orphan", order_by="OrderLine.id"

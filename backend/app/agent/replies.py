@@ -28,13 +28,21 @@ def order_summary(draft: Draft, index: CatalogIndex, total: Decimal) -> str:
 
 def confirmation(number: int | None, summary: str) -> str:
     header = f"Order #{number}" if number else "Your order"
-    return f"{header}\n{summary}\n\nReply 1 to confirm or 2 to make changes."
+    return f"{header}\n{summary}\n\nTap Confirm, or reply 1 to confirm and 2 to make changes."
 
 
 REVIEW_HOLD = "Thanks! We're checking your order and will confirm it shortly."
 HANDOFF = "Thanks for your message. Our team will get back to you soon."
 CANCELLED = "Your order has been cancelled."
 NOT_FOUND = "Sorry, we couldn't find that product. Our team will get back to you."
+EDIT_PROMPT = 'Sure, send your changes. For example: "surf 3 dz kar do" or "tapal hata do".'
+STOCK_CHANGED = (
+    "Some items just went out of stock. Our team will check your order and get back to you."
+)
+
+
+def order_confirmed(number: int) -> str:
+    return f"Thank you! Order #{number} is confirmed. Your invoice is attached."
 
 
 def balance_answer(balance: Decimal) -> str:

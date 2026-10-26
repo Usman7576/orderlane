@@ -18,7 +18,12 @@ from app.integrations.speech import AzureSpeech, SpeechToText
 from app.integrations.whatsapp import WhatsAppClient
 from app.log import configure_logging
 from app.services.processing import CatalogCache, Runtime
-from app.workers.tasks import MAX_TRIES, process_inbound_message
+from app.workers.tasks import (
+    MAX_TRIES,
+    deliver_replies,
+    process_inbound_message,
+    review_order_task,
+)
 
 settings = get_settings()
 log = structlog.get_logger()
@@ -95,6 +100,7 @@ async def startup(ctx: dict[str, Any]) -> None:
             settings=AgentSettings(review_above_total=Decimal(str(settings.review_above_total))),
             price_input_per_m=settings.llm_price_input_per_m,
             price_output_per_m=settings.llm_price_output_per_m,
+            reply_delay_s=settings.confirm_debounce_seconds,
         ),
     )
 
@@ -106,7 +112,7 @@ async def shutdown(ctx: dict[str, Any]) -> None:
 
 
 class WorkerSettings:
-    functions: ClassVar[list[Any]] = [process_inbound_message]
+    functions: ClassVar[list[Any]] = [process_inbound_message, deliver_replies, review_order_task]
     on_startup = startup
     on_shutdown = shutdown
     redis_settings = RedisSettings.from_dsn(settings.redis_url)

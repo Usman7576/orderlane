@@ -11,6 +11,8 @@ from app.models.enums import Channel, MessageType
 from app.schemas.inbound import InboundMessage, StatusUpdate
 
 GRAPH_BASE_URL = "https://graph.facebook.com"
+MAX_BUTTONS = 3
+MAX_BUTTON_BODY = 1024
 
 
 def verify_signature(app_secret: str, body: bytes, header: str | None) -> bool:
@@ -207,6 +209,46 @@ class WhatsAppClient:
     async def send_text(self, to: str, text: str) -> str:
         return await self._post_message(
             {"to": to, "type": "text", "text": {"body": text, "preview_url": False}}
+        )
+
+    async def send_buttons(self, to: str, body: str, buttons: list[tuple[str, str]]) -> str:
+        """Interactive reply buttons: up to 3, titles up to 20 characters, body up to 1024."""
+        if not 1 <= len(buttons) <= MAX_BUTTONS:
+            raise ValueError("WhatsApp allows 1 to 3 reply buttons")
+        return await self._post_message(
+            {
+                "to": to,
+                "type": "interactive",
+                "interactive": {
+                    "type": "button",
+                    "body": {"text": body[:MAX_BUTTON_BODY]},
+                    "action": {
+                        "buttons": [
+                            {"type": "reply", "reply": {"id": bid, "title": title[:20]}}
+                            for bid, title in buttons
+                        ]
+                    },
+                },
+            }
+        )
+
+    async def upload_media(self, content: bytes, mime_type: str, filename: str) -> str:
+        """Upload a file (e.g. an invoice PDF); returns a media ID to send it with."""
+        data = await self._request(
+            "POST",
+            f"{self._api}/{self._phone_number_id}/media",
+            data={"messaging_product": "whatsapp", "type": mime_type},
+            files={"file": (filename, content, mime_type)},
+        )
+        return str(data["id"])
+
+    async def send_document(self, to: str, media_id: str, filename: str, caption: str) -> str:
+        return await self._post_message(
+            {
+                "to": to,
+                "type": "document",
+                "document": {"id": media_id, "filename": filename, "caption": caption},
+            }
         )
 
     async def mark_as_read(self, message_id: str) -> None:

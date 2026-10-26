@@ -2,7 +2,7 @@
 
 An AI agent that turns WhatsApp text and voice orders into checked, staff-approved sales orders for a small wholesaler.
 
-> **Status: Day 3 of 7.** Messages (text and voice) now run through a LangGraph agent that builds draft orders with real prices, stock and credit checks, and pauses for staff review when unsure. Next: sending replies, customer confirmation and staff approval (Day 4), then the dashboard. See [docs/PLAN.md](docs/PLAN.md).
+> **Status: Day 4 of 7.** The full order loop works: the agent replies on WhatsApp, customers confirm with buttons, confirmed orders reserve stock and get a PDF invoice, and staff can fix, approve or reject held orders. Next: the dashboard and login (Day 5). See [docs/PLAN.md](docs/PLAN.md).
 >
 > This is a portfolio project. It is not used by a real business, and all results come from a volunteer-written evaluation dataset.
 
@@ -47,6 +47,25 @@ save_order -> needs staff: hold_reply -> staff_review (pauses) -> compose_reply
 - **Replies** are templates filled from the database, so prices in a message are always real.
 - **Voice notes:** downloaded from WhatsApp and transcribed by Azure AI Speech (short-audio REST API, free tier). Each configured language is tried and the most confident transcript wins.
 - **Tracing:** every run is stored in `agent_runs` (intent, route, latency, tokens, estimated cost, prompt version) with one `agent_steps` row per step.
+
+## The order loop
+
+```
+customer message ──▶ agent ──▶ reply queued ──(10 s quiet)──▶ sent on WhatsApp
+                                  │
+        clear order ──────────────┴──▶ summary with [Confirm] [Edit] [Cancel]
+        unsure / risky ──▶ "we're checking" ──▶ staff fix lines, approve or reject
+                                                     │ (resumes the paused agent run)
+                                                     ▼
+[Confirm] ──▶ stock reserved + ledger entry + invoice PDF, in one locked transaction
+          ──▶ "Order #1001 confirmed" + invoice document on WhatsApp
+```
+
+- **One reply per burst:** replies wait about 10 seconds. If the customer sends another message meanwhile, only the newest order summary is sent; answers to questions are always sent.
+- **Safe confirmation:** the order row is locked, so a double tap confirms and invoices once. If stock ran out since the order was checked, it goes back to staff instead.
+- **Stale buttons:** tapping Confirm on an order that changed or was already confirmed gets an explanation, never a second invoice.
+- **Staff edits teach the matcher:** when staff correct a line, they can save what the customer wrote as a new alias for that product.
+- **Delivery failures:** temporary WhatsApp errors (rate limits, outages) are retried with backoff; permanent ones are recorded on the message for staff to see.
 
 ## Evaluation
 

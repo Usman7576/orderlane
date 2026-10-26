@@ -115,6 +115,11 @@ class DbOrderTools:
                     unit=line.unit_name,
                     source_text=line.source_text or "",
                     needs_review=bool(line.match_method is None),
+                    candidates=tuple(a["key"] for a in line.alternatives if "key" in a),
+                    method=line.match_method,
+                    confidence=line.match_confidence,
+                    unit_price=line.unit_price,
+                    line_total=line.line_total,
                 )
                 for line in lines
             )

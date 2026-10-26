@@ -15,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.agent.graph import AgentGraph, AgentOutcome, run_message
 from app.agent.prompts import PROMPT_VERSION
+from app.agent.routing import ANSWER, ASK_CUSTOMER, CANCELLED, HANDOFF, STAFF_REVIEW
 from app.agent.state import AgentDeps, AgentSettings
 from app.agent.tools import DbOrderTools
 from app.integrations.llm import LLM, Usage
@@ -22,9 +23,11 @@ from app.integrations.speech import SpeechToText
 from app.integrations.whatsapp import WhatsAppClient
 from app.matching.catalog import CatalogIndex
 from app.matching.matcher import Matcher
-from app.models import AgentRun, AgentStep, Message
-from app.models.enums import Direction, MessageStatus, MessageType
+from app.models import AgentRun, AgentStep, Message, Order
+from app.models.enums import MessageStatus, MessageType, ReplyKind
 from app.services.inbound import get_or_create_customer
+from app.services.order_actions import handle_customer_action, parse_action
+from app.services.outbound import queue_reply
 
 log = structlog.get_logger()
 
@@ -57,15 +60,29 @@ class Runtime:
     settings: AgentSettings
     price_input_per_m: float = 0.0
     price_output_per_m: float = 0.0
+    reply_delay_s: float = 10.0
 
 
 @dataclass
 class ProcessResult:
     message_id: int
+    customer_id: int | None = None
     agent_run_id: int | None = None
     reply: str | None = None
     paused: bool = False
     skipped: str | None = None
+    # When to send queued replies: right away for button taps, after a short pause for
+    # agent replies (so a burst of messages gets one answer).
+    deliver_after_s: float | None = None
+
+
+_REPLY_KIND = {
+    ASK_CUSTOMER: ReplyKind.CONFIRMATION,
+    STAFF_REVIEW: ReplyKind.REVIEW_HOLD,
+    ANSWER: ReplyKind.ANSWER,
+    HANDOFF: ReplyKind.HANDOFF,
+    CANCELLED: ReplyKind.CANCELLED,
+}
 
 
 async def _transcribe(session: AsyncSession, message: Message, rt: Runtime) -> str | None:
@@ -137,7 +154,7 @@ async def _record_run(
 async def process_message(session: AsyncSession, message_id: int, rt: Runtime) -> ProcessResult:
     message = (await session.execute(select(Message).where(Message.id == message_id))).scalar_one()
     if message.status == MessageStatus.PROCESSED:
-        return ProcessResult(message_id, skipped="already processed")
+        return ProcessResult(message_id, message.customer_id, skipped="already processed")
     if message.sender is None:
         message.status = MessageStatus.PROCESSED
         return ProcessResult(message_id, skipped="no sender")
@@ -147,15 +164,23 @@ async def process_message(session: AsyncSession, message_id: int, rt: Runtime) -
     )
     message.customer_id = customer.id
 
+    # Confirm / Edit / Cancel buttons, or a short typed "1" / "ok" for a waiting order.
+    action = parse_action(message)
+    if action is not None and await handle_customer_action(
+        session, message, action, rt.storage_dir
+    ):
+        message.status = MessageStatus.PROCESSED
+        return ProcessResult(message_id, customer.id, skipped=None, deliver_after_s=0)
+
     if message.type == MessageType.AUDIO:
         text = await _transcribe(session, message, rt)
     elif message.type == MessageType.TEXT:
         text = message.body
     else:
-        text = None  # button replies are handled on Day 4; stickers etc. are ignored
+        text = None  # stickers, images and stale buttons are ignored
     if not text:
         message.status = MessageStatus.PROCESSED
-        return ProcessResult(message_id, skipped=f"no text ({message.type})")
+        return ProcessResult(message_id, customer.id, skipped=f"no text ({message.type})")
 
     index = await rt.catalog.get(session, message.business_id)
     deps = AgentDeps(
@@ -177,18 +202,19 @@ async def process_message(session: AsyncSession, message_id: int, rt: Runtime) -
     )
     run = await _record_run(session, message, thread_id, deps, outcome, started, rt)
 
+    order_id = outcome.state.get("order_id")
+    if outcome.paused and order_id:
+        order = await session.get_one(Order, order_id)
+        order.review_thread_id = thread_id  # resumed when staff approve or reject
     if outcome.reply:
-        # Queued here; Day 4 sends it (grouping bursts of messages into one reply).
-        session.add(
-            Message(
-                business_id=message.business_id,
-                customer_id=customer.id,
-                channel=message.channel,
-                direction=Direction.OUT,
-                type=MessageType.TEXT,
-                body=outcome.reply,
-                status=MessageStatus.QUEUED,
-            )
+        queue_reply(
+            session,
+            business_id=message.business_id,
+            customer_id=customer.id,
+            channel=message.channel,
+            kind=_REPLY_KIND.get(str(outcome.state.get("route")), ReplyKind.INFO),
+            body=outcome.reply,
+            order_id=order_id,
         )
     message.status = MessageStatus.PROCESSED
     log.info(
@@ -198,4 +224,11 @@ async def process_message(session: AsyncSession, message_id: int, rt: Runtime) -
         route=outcome.state.get("route"),
         paused=outcome.paused,
     )
-    return ProcessResult(message_id, run.id, outcome.reply, outcome.paused)
+    return ProcessResult(
+        message_id,
+        customer.id,
+        run.id,
+        outcome.reply,
+        outcome.paused,
+        deliver_after_s=rt.reply_delay_s,
+    )
