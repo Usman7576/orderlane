@@ -379,6 +379,7 @@ async def test_metrics_count_live_orders_and_agent_runs(
         message_id, _ = await save_message(session_factory, business_id, body=text)
         async with session_factory() as session:
             await process_message(session, message_id, make_runtime(tmp_path))
+            await session.commit()
     await _login(db_client)
 
     response = await db_client.get("/api/metrics", params={"days": 7})

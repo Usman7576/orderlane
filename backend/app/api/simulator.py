@@ -51,7 +51,7 @@ async def send_message(
     body: SimMessageIn, user: CurrentUser, session: SessionDep, queue: QueueDep
 ) -> SimQueued:
     if (body.text is None) == (body.button_id is None):
-        raise HTTPException(status.HTTP_422_UNPROCESSABLE_ENTITY, "send either text or a button")
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "send either text or a button")
     if body.button_id is not None:
         inbound = InboundMessage(
             channel=Channel.WEBCHAT,
