@@ -1,0 +1,5781 @@
+{
+  "meta": {
+    "timestamp": "2026-10-26 15:49 UTC",
+    "git_sha": "184f7bf",
+    "config": "agent-rules"
+  },
+  "summary": {
+    "cases": 123,
+    "intent_accuracy": 0.9853,
+    "line_precision": 0.9778,
+    "line_recall": 0.9706,
+    "line_f1": 0.9742,
+    "product_recall": 0.9853,
+    "order_exact_match": 0.9593,
+    "auto_confirm_rate": 0.7398,
+    "auto_confirm_precision": 0.989,
+    "ambiguous_sent_to_review": 0.8889
+  },
+  "breakdown": {
+    "channel:text": {
+      "cases": 123,
+      "intent_accuracy": 0.9853,
+      "line_precision": 0.9778,
+      "line_recall": 0.9706,
+      "line_f1": 0.9742,
+      "product_recall": 0.9853,
+      "order_exact_match": 0.9593,
+      "auto_confirm_rate": 0.7398,
+      "auto_confirm_precision": 0.989,
+      "ambiguous_sent_to_review": 0.8889
+    },
+    "source:dev": {
+      "cases": 30,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.7667,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": 1.0
+    },
+    "source:synthetic": {
+      "cases": 93,
+      "intent_accuracy": 0.9802,
+      "line_precision": 0.9688,
+      "line_recall": 0.9588,
+      "line_f1": 0.9638,
+      "product_recall": 0.9794,
+      "order_exact_match": 0.9462,
+      "auto_confirm_rate": 0.7312,
+      "auto_confirm_precision": 0.9853,
+      "ambiguous_sent_to_review": 0.8571
+    },
+    "tag:add": {
+      "cases": 2,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.5,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:ambiguous": {
+      "cases": 7,
+      "intent_accuracy": 1.0,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "product_recall": null,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": 1.0
+    },
+    "tag:cancel": {
+      "cases": 3,
+      "intent_accuracy": 1.0,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "product_recall": null,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:chatter": {
+      "cases": 1,
+      "intent_accuracy": 1.0,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "product_recall": null,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:complaint": {
+      "cases": 3,
+      "intent_accuracy": 1.0,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "product_recall": null,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:english": {
+      "cases": 29,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.9655,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:fraction": {
+      "cases": 4,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:greeting": {
+      "cases": 2,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:injection": {
+      "cases": 2,
+      "intent_accuracy": 0.5,
+      "line_precision": 1.0,
+      "line_recall": 0.5,
+      "line_f1": 0.6667,
+      "product_recall": 0.5,
+      "order_exact_match": 0.5,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:modify": {
+      "cases": 7,
+      "intent_accuracy": 1.0,
+      "line_precision": 0.8571,
+      "line_recall": 0.8571,
+      "line_f1": 0.8571,
+      "product_recall": 1.0,
+      "order_exact_match": 0.8571,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 0.8571,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:multi_item": {
+      "cases": 24,
+      "intent_accuracy": 1.0,
+      "line_precision": 0.9828,
+      "line_recall": 0.9828,
+      "line_f1": 0.9828,
+      "product_recall": 0.9828,
+      "order_exact_match": 0.9583,
+      "auto_confirm_rate": 0.9583,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:multi_message": {
+      "cases": 13,
+      "intent_accuracy": 1.0,
+      "line_precision": 0.9231,
+      "line_recall": 0.9231,
+      "line_f1": 0.9231,
+      "product_recall": 1.0,
+      "order_exact_match": 0.9231,
+      "auto_confirm_rate": 0.6923,
+      "auto_confirm_precision": 0.8889,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:no_separator": {
+      "cases": 5,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:no_unit": {
+      "cases": 1,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:number_word": {
+      "cases": 8,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:quantity_last": {
+      "cases": 14,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.9286,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": 1.0
+    },
+    "tag:quantity_only": {
+      "cases": 2,
+      "intent_accuracy": 1.0,
+      "line_precision": 0.5,
+      "line_recall": 0.5,
+      "line_f1": 0.5,
+      "product_recall": 1.0,
+      "order_exact_match": 0.5,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 0.5,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:question": {
+      "cases": 8,
+      "intent_accuracy": 1.0,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "product_recall": null,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:remove": {
+      "cases": 2,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:roman_urdu": {
+      "cases": 17,
+      "intent_accuracy": 1.0,
+      "line_precision": 0.9091,
+      "line_recall": 0.9091,
+      "line_f1": 0.9091,
+      "product_recall": 0.9545,
+      "order_exact_match": 0.8824,
+      "auto_confirm_rate": 0.8824,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:similar_products": {
+      "cases": 6,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:size_as_quantity": {
+      "cases": 1,
+      "intent_accuracy": 1.0,
+      "line_precision": 0.0,
+      "line_recall": 0.0,
+      "line_f1": null,
+      "product_recall": 1.0,
+      "order_exact_match": 0.0,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:slang_product": {
+      "cases": 2,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:slang_unit": {
+      "cases": 17,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 1.0,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:typo": {
+      "cases": 12,
+      "intent_accuracy": 1.0,
+      "line_precision": 1.0,
+      "line_recall": 1.0,
+      "line_f1": 1.0,
+      "product_recall": 1.0,
+      "order_exact_match": 1.0,
+      "auto_confirm_rate": 0.8333,
+      "auto_confirm_precision": 1.0,
+      "ambiguous_sent_to_review": null
+    },
+    "tag:unknown_product": {
+      "cases": 2,
+      "intent_accuracy": 0.5,
+      "line_precision": null,
+      "line_recall": null,
+      "line_f1": null,
+      "product_recall": null,
+      "order_exact_match": 0.5,
+      "auto_confirm_rate": 0.0,
+      "auto_confirm_precision": null,
+      "ambiguous_sent_to_review": 0.5
+    }
+  },
+  "cases": [
+    {
+      "case_id": "dev-01",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "tapal danedar 950"
+        },
+        {
+          "sku": "SRF-EXC-500",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "surf 500"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "5"
+        },
+        {
+          "sku": "SRF-EXC-500",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-02",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "greeting",
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "olpers 1l"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-03",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LUX-SOP-130",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "lux"
+        },
+        {
+          "sku": "LFB-SOP-130",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "lifebuoy"
+        },
+        {
+          "sku": "SFG-SOP-130",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "safeguard"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LUX-SOP-130",
+          "unit": "dozen",
+          "qty": "2"
+        },
+        {
+          "sku": "LFB-SOP-130",
+          "unit": "dozen",
+          "qty": "2"
+        },
+        {
+          "sku": "SFG-SOP-130",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-04",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SUN-ATA-10KG",
+          "unit": "piece",
+          "qty": "10",
+          "review": false,
+          "issues": [],
+          "text": "bori sunridge atta"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SUN-ATA-10KG",
+          "unit": "piece",
+          "qty": "10"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-05",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "similar_products"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "GEN-SUG-50KG",
+          "unit": "piece",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "cheeni bori"
+        },
+        {
+          "sku": "GEN-SUG-1KG",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "cheeni 1kg"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GEN-SUG-50KG",
+          "unit": "piece",
+          "qty": "2"
+        },
+        {
+          "sku": "GEN-SUG-1KG",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-06",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "quantity_last",
+        "similar_products"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "DAL-GHE-1KG",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "dalda ghee"
+        },
+        {
+          "sku": "DAL-OIL-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "dalda oil 1l"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "DAL-GHE-1KG",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "DAL-OIL-1L",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-07",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LIP-YEL-950",
+          "unit": "carton",
+          "qty": "4",
+          "review": false,
+          "issues": [],
+          "text": "lipton yellow label 950g"
+        },
+        {
+          "sku": "TNG-ORG-750",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "tang"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LIP-YEL-950",
+          "unit": "carton",
+          "qty": "4"
+        },
+        {
+          "sku": "TNG-ORG-750",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-08",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SHN-BRY-60",
+          "unit": "dozen",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "shan biryani masala"
+        },
+        {
+          "sku": "NAT-SLT-800",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "national namak"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SHN-BRY-60",
+          "unit": "dozen",
+          "qty": "3"
+        },
+        {
+          "sku": "NAT-SLT-800",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-09",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "no_separator",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "7UP-1500",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "7up 1.5"
+        },
+        {
+          "sku": "COK-1500",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "coke 1.5"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "7UP-1500",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "COK-1500",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-10",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "fraction"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "NES-MPK-1L",
+          "unit": "carton",
+          "qty": "0.5",
+          "review": false,
+          "issues": [],
+          "text": "milkpak 1l"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "NES-MPK-1L",
+          "unit": "piece",
+          "qty": "6"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-11",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "similar_products"
+      ],
+      "intents_gold": [
+        "new_order",
+        "add"
+      ],
+      "intents_pred": [
+        "new_order",
+        "add"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PEP-1500",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "pepsi 1.5"
+        },
+        {
+          "sku": "PEP-500",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "pepsi 500"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PEP-1500",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "PEP-500",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-12",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "modify"
+      ],
+      "intents_gold": [
+        "new_order",
+        "modify"
+      ],
+      "intents_pred": [
+        "new_order",
+        "modify"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "6",
+          "review": false,
+          "issues": [],
+          "text": "olpers"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "6"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-13",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "modify",
+        "quantity_only"
+      ],
+      "intents_gold": [
+        "new_order",
+        "modify"
+      ],
+      "intents_pred": [
+        "new_order",
+        "modify"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-475",
+          "unit": "carton",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "tapal 475"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-475",
+          "unit": "carton",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-14",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "modify",
+        "remove"
+      ],
+      "intents_gold": [
+        "new_order",
+        "modify"
+      ],
+      "intents_pred": [
+        "new_order",
+        "modify"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "HNS-SHP-360",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "head&shoulders"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "HNS-SHP-360",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-15",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "cancel"
+      ],
+      "intents_gold": [
+        "new_order",
+        "cancel"
+      ],
+      "intents_pred": [
+        "new_order",
+        "cancel"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "dev-16",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "question"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "dev-17",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "question"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "dev-18",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "question"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "dev-19",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "complaint"
+      ],
+      "intents_gold": [
+        "other"
+      ],
+      "intents_pred": [
+        "other"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "dev-20",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "ambiguous"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "ARL-DET-1KG",
+          "unit": "dozen",
+          "qty": "1",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "ariel"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-21",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "ambiguous",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "SRF-EXC-1KG",
+          "unit": "dozen",
+          "qty": "2",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "surf"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-22",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "typo",
+        "number_word"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "tapal danedr 950"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-23",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LIP-YEL-950",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "liptn yelow label 950"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LIP-YEL-950",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-24",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "no_separator",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "kurkure"
+        },
+        {
+          "sku": "SLN-SML",
+          "unit": "box",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "slanty"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "2"
+        },
+        {
+          "sku": "SLN-SML",
+          "unit": "box",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-25",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "slang_product"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "GEN-MCH-BOX",
+          "unit": "packet",
+          "qty": "10",
+          "review": false,
+          "issues": [],
+          "text": "machis"
+        },
+        {
+          "sku": "VIM-BAR-STD",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "vim bar"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GEN-MCH-BOX",
+          "unit": "packet",
+          "qty": "10"
+        },
+        {
+          "sku": "VIM-BAR-STD",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-26",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "DAL-OIL-5L",
+          "unit": "piece",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "tin dalda 5l"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "DAL-OIL-5L",
+          "unit": "piece",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-27",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "no_separator",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "CLG-TPT-150",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "colgate 150"
+        },
+        {
+          "sku": "CLS-TPT-150",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "closeup"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "CLG-TPT-150",
+          "unit": "dozen",
+          "qty": "2"
+        },
+        {
+          "sku": "CLS-TPT-150",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-28",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "quantity_last",
+        "slang_product"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "FLK-RIC-5KG",
+          "unit": "piece",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "falak chawal 5kg 3 bags"
+        },
+        {
+          "sku": "GEN-MSR-1KG",
+          "unit": "piece",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "masoor daal"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "FLK-RIC-5KG",
+          "unit": "piece",
+          "qty": "3"
+        },
+        {
+          "sku": "GEN-MSR-1KG",
+          "unit": "piece",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-29",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "HRP-TLT-500",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "harpic"
+        },
+        {
+          "sku": "DTL-LIQ-500",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "dettol liquid 500"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "HRP-TLT-500",
+          "unit": "dozen",
+          "qty": "1"
+        },
+        {
+          "sku": "DTL-LIQ-500",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "dev-30",
+      "source": "dev",
+      "channel": "text",
+      "tags": [
+        "multi_item"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PFR-SPR-TKY",
+          "unit": "box",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "sooper"
+        },
+        {
+          "sku": "LU-PRC-TKY",
+          "unit": "box",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "prince"
+        },
+        {
+          "sku": "RFH-JLY-80",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "rafhan jelly"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PFR-SPR-TKY",
+          "unit": "box",
+          "qty": "2"
+        },
+        {
+          "sku": "LU-PRC-TKY",
+          "unit": "box",
+          "qty": "2"
+        },
+        {
+          "sku": "RFH-JLY-80",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-001",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "greeting",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-MEZ-430",
+          "unit": "carton",
+          "qty": "6",
+          "review": false,
+          "issues": [],
+          "text": "tapal mezban"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-MEZ-430",
+          "unit": "carton",
+          "qty": "6"
+        }
+      ]
+    },
+    {
+      "case_id": "held-002",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "VIT-TEA-900",
+          "unit": "carton",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "vital tea 900g"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "VIT-TEA-900",
+          "unit": "carton",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-003",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "NAT-BRY-90",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "national biryani masala"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "NAT-BRY-90",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-004",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "NAT-KCH-800",
+          "unit": "dozen",
+          "qty": "4",
+          "review": false,
+          "issues": [],
+          "text": "national ketchup 800g"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "NAT-KCH-800",
+          "unit": "dozen",
+          "qty": "4"
+        }
+      ]
+    },
+    {
+      "case_id": "held-005",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "MIT-JAM-450",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "mitchells jam"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "MIT-JAM-450",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-006",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "FLK-RIC-5KG",
+          "unit": "piece",
+          "qty": "10",
+          "review": false,
+          "issues": [],
+          "text": "bags falak sella"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "FLK-RIC-5KG",
+          "unit": "piece",
+          "qty": "10"
+        }
+      ]
+    },
+    {
+      "case_id": "held-007",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "slang_unit",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "FAU-ATA-10KG",
+          "unit": "piece",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "bori fauji atta"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "FAU-ATA-10KG",
+          "unit": "piece",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "held-008",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "GEN-MNG-1KG",
+          "unit": "piece",
+          "qty": "8",
+          "review": false,
+          "issues": [],
+          "text": "moong daal 1kg"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GEN-MNG-1KG",
+          "unit": "piece",
+          "qty": "8"
+        }
+      ]
+    },
+    {
+      "case_id": "held-009",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "GEN-CHN-1KG",
+          "unit": "piece",
+          "qty": "12",
+          "review": false,
+          "issues": [],
+          "text": "chana dal"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GEN-CHN-1KG",
+          "unit": "piece",
+          "qty": "12"
+        }
+      ]
+    },
+    {
+      "case_id": "held-010",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SUF-OIL-1L",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "sufi oil"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SUF-OIL-1L",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-011",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "slang_unit",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "EVA-GHE-1KG",
+          "unit": "carton",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "eva ghee"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "EVA-GHE-1KG",
+          "unit": "carton",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-012",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "HAB-OIL-5L",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "habib 5l tin"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "HAB-OIL-5L",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-013",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "AQF-WTR-1500",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "aquafina 1.5"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "AQF-WTR-1500",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-014",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "NES-WTR-1500",
+          "unit": "carton",
+          "qty": "4",
+          "review": false,
+          "issues": [],
+          "text": "nestle pani 1.5l"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "NES-WTR-1500",
+          "unit": "carton",
+          "qty": "4"
+        }
+      ]
+    },
+    {
+      "case_id": "held-015",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "slang_unit",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "kurkure"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-016",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LAY-SLT-SML",
+          "unit": "box",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "lays salted"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LAY-SLT-SML",
+          "unit": "box",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-017",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PFR-CND-TKY",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "candi biscuit"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PFR-CND-TKY",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-018",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LU-TUC-TKY",
+          "unit": "box",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "tuc"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LU-TUC-TKY",
+          "unit": "box",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "held-019",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "KNR-NDL-CHK",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "knorr noodles"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "KNR-NDL-CHK",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-020",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "RFH-JLY-80",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "rafhan jelly"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "RFH-JLY-80",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-021",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "NES-EVD-375",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "everyday"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "NES-EVD-375",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-022",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "HAL-TWH-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "haleeb"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "HAL-TWH-1L",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-023",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "no_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "NES-NID-390",
+          "unit": "piece",
+          "qty": "6",
+          "review": true,
+          "issues": [
+            "unit_assumed"
+          ],
+          "text": "nido 390"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "NES-NID-390",
+          "unit": "piece",
+          "qty": "6"
+        }
+      ]
+    },
+    {
+      "case_id": "held-024",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PNT-SHP-360",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "pantene"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PNT-SHP-360",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-025",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "DTL-SOP-130",
+          "unit": "dozen",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "dettol soap"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "DTL-SOP-130",
+          "unit": "dozen",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-026",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "DTL-LIQ-500",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "dettol 500ml liquid"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "DTL-LIQ-500",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-027",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "slang_unit",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "MAX-BAR-STD",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "max bar"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "MAX-BAR-STD",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-028",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "VIM-BAR-STD",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "vim"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "VIM-BAR-STD",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-029",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "BON-DET-1KG",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "bonus tristar"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "BON-DET-1KG",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-030",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SRF-EXC-2KG",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "surf 2kg"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SRF-EXC-2KG",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-031",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SRF-EXC-1KG",
+          "unit": "dozen",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "surf excel 1kg"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SRF-EXC-1KG",
+          "unit": "dozen",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-032",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "ARL-DET-500",
+          "unit": "dozen",
+          "qty": "4",
+          "review": false,
+          "issues": [],
+          "text": "ariel 500g"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "ARL-DET-500",
+          "unit": "dozen",
+          "qty": "4"
+        }
+      ]
+    },
+    {
+      "case_id": "held-033",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LIP-YEL-475",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "yellow label 475"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LIP-YEL-475",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-034",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-FAM-900",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "family mixture"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-FAM-900",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-035",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-190",
+          "unit": "dozen",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "tapal 190"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-190",
+          "unit": "dozen",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-036",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "roman_urdu",
+        "size_as_quantity"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 0,
+      "products_correct": 1,
+      "exact": false,
+      "routed_to_review": true,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "GEN-SUG-1KG",
+          "unit": "piece",
+          "qty": "1",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "20kg cheeni"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GEN-SUG-1KG",
+          "unit": "piece",
+          "qty": "20"
+        }
+      ]
+    },
+    {
+      "case_id": "held-037",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "quantity_last",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "7",
+          "review": false,
+          "issues": [],
+          "text": "olpers doodh"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "7"
+        }
+      ]
+    },
+    {
+      "case_id": "held-038",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "quantity_last",
+        "number_word",
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "NES-MPK-250",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "milkpak 250"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "NES-MPK-250",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-039",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "quantity_last",
+        "no_separator",
+        "multi_item"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SHN-NHR-60",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "shan nihari"
+        },
+        {
+          "sku": "SHN-QRM-50",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "shan qorma"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SHN-NHR-60",
+          "unit": "dozen",
+          "qty": "1"
+        },
+        {
+          "sku": "SHN-QRM-50",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-040",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "number_word",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "DAL-GHE-1KG",
+          "unit": "carton",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "dalda ghee"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "DAL-GHE-1KG",
+          "unit": "carton",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-041",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "number_word",
+        "slang_unit",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PFR-SPR-TKY",
+          "unit": "box",
+          "qty": "4",
+          "review": false,
+          "issues": [],
+          "text": "sooper"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PFR-SPR-TKY",
+          "unit": "box",
+          "qty": "4"
+        }
+      ]
+    },
+    {
+      "case_id": "held-042",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "number_word",
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LFB-SOP-130",
+          "unit": "dozen",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "lifebuoy"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LFB-SOP-130",
+          "unit": "dozen",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "held-043",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "fraction",
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "0.5",
+          "review": false,
+          "issues": [],
+          "text": "olpers"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "piece",
+          "qty": "6"
+        }
+      ]
+    },
+    {
+      "case_id": "held-044",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "fraction",
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "COK-1500",
+          "unit": "carton",
+          "qty": "0.5",
+          "review": false,
+          "issues": [],
+          "text": "coke 1.5"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "COK-1500",
+          "unit": "piece",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-045",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "fraction",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PEP-500",
+          "unit": "carton",
+          "qty": "1.5",
+          "review": false,
+          "issues": [],
+          "text": "pepsi 500"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PEP-500",
+          "unit": "piece",
+          "qty": "18"
+        }
+      ]
+    },
+    {
+      "case_id": "held-046",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "number_word",
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SPR-1500",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "sprite"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SPR-1500",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-047",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "number_word",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SFG-SOP-130",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "safeguard"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SFG-SOP-130",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-048",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "number_word",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "GEN-MCH-BOX",
+          "unit": "packet",
+          "qty": "10",
+          "review": false,
+          "issues": [],
+          "text": "machis"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GEN-MCH-BOX",
+          "unit": "packet",
+          "qty": "10"
+        }
+      ]
+    },
+    {
+      "case_id": "held-049",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "tapaal danedaar 950"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-050",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "CLG-TPT-150",
+          "unit": "dozen",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "colgte"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "CLG-TPT-150",
+          "unit": "dozen",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-051",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "olpres"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-052",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SUN-SHP-360",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "sunslik"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SUN-SHP-360",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-053",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "4",
+          "review": false,
+          "issues": [],
+          "text": "kurkre"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "4"
+        }
+      ]
+    },
+    {
+      "case_id": "held-054",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo",
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "DAL-OIL-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "dalda 1l"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "DAL-OIL-1L",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-055",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "HRP-TLT-500",
+          "unit": "dozen",
+          "qty": "2",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "harpik"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "HRP-TLT-500",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-056",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "GRD-RIC-5KG",
+          "unit": "piece",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "bag gaurd rice"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GRD-RIC-5KG",
+          "unit": "piece",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "held-057",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LIP-YEL-950",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "liptin 950"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LIP-YEL-950",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-058",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "typo"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TNG-ORG-750",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "tng orange"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TNG-ORG-750",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-059",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 4,
+      "lines_pred": 4,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": false,
+      "routed_to_review": true,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "tapal 950"
+        },
+        {
+          "sku": "LUX-SOP-130",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "lux"
+        },
+        {
+          "sku": "GEN-SUG-1KG",
+          "unit": "piece",
+          "qty": "3",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "bori cheeni"
+        },
+        {
+          "sku": "NAT-SLT-800",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "namak"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "LUX-SOP-130",
+          "unit": "dozen",
+          "qty": "1"
+        },
+        {
+          "sku": "GEN-SUG-50KG",
+          "unit": "piece",
+          "qty": "3"
+        },
+        {
+          "sku": "NAT-SLT-800",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-060",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "english"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "olpers"
+        },
+        {
+          "sku": "NES-MPK-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "milkpak 1l"
+        },
+        {
+          "sku": "NES-EVD-375",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "everyday"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "NES-MPK-1L",
+          "unit": "carton",
+          "qty": "1"
+        },
+        {
+          "sku": "NES-EVD-375",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-061",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "no_separator"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LAY-MSL-SML",
+          "unit": "box",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "lays masala"
+        },
+        {
+          "sku": "SLN-SML",
+          "unit": "box",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "slanty"
+        },
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "kurkure"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LAY-MSL-SML",
+          "unit": "box",
+          "qty": "3"
+        },
+        {
+          "sku": "SLN-SML",
+          "unit": "box",
+          "qty": "2"
+        },
+        {
+          "sku": "KUR-CHT-SML",
+          "unit": "box",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-062",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SUN-SHP-360",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "sunsilk"
+        },
+        {
+          "sku": "PNT-SHP-360",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "pantene"
+        },
+        {
+          "sku": "HNS-SHP-360",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "head&shoulders"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SUN-SHP-360",
+          "unit": "dozen",
+          "qty": "1"
+        },
+        {
+          "sku": "PNT-SHP-360",
+          "unit": "dozen",
+          "qty": "1"
+        },
+        {
+          "sku": "HNS-SHP-360",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-063",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "roman_urdu"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PEP-1500",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "pepsi 1.5"
+        },
+        {
+          "sku": "7UP-1500",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "7up"
+        },
+        {
+          "sku": "COK-1500",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "coke"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PEP-1500",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "7UP-1500",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "COK-1500",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-064",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "quantity_last",
+        "slang_unit"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "GEN-MSR-1KG",
+          "unit": "piece",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "masoor"
+        },
+        {
+          "sku": "GEN-MNG-1KG",
+          "unit": "piece",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "moong"
+        },
+        {
+          "sku": "GEN-CHN-1KG",
+          "unit": "piece",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "chana"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "GEN-MSR-1KG",
+          "unit": "piece",
+          "qty": "5"
+        },
+        {
+          "sku": "GEN-MNG-1KG",
+          "unit": "piece",
+          "qty": "5"
+        },
+        {
+          "sku": "GEN-CHN-1KG",
+          "unit": "piece",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "held-065",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 3,
+      "lines_pred": 3,
+      "lines_correct": 3,
+      "products_correct": 3,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "CLS-TPT-150",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "closeup"
+        },
+        {
+          "sku": "CLG-TPT-150",
+          "unit": "dozen",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "colgate"
+        },
+        {
+          "sku": "VIM-BAR-STD",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "vim"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "CLS-TPT-150",
+          "unit": "dozen",
+          "qty": "1"
+        },
+        {
+          "sku": "CLG-TPT-150",
+          "unit": "dozen",
+          "qty": "1"
+        },
+        {
+          "sku": "VIM-BAR-STD",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-066",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "similar_products"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "DAL-OIL-1L",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "dalda oil 1l"
+        },
+        {
+          "sku": "DAL-OIL-5L",
+          "unit": "piece",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "tin dalda 5l"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "DAL-OIL-1L",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "DAL-OIL-5L",
+          "unit": "piece",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-067",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "similar_products"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SUF-GHE-1KG",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "sufi ghee"
+        },
+        {
+          "sku": "SUF-OIL-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "sufi oil"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SUF-GHE-1KG",
+          "unit": "carton",
+          "qty": "1"
+        },
+        {
+          "sku": "SUF-OIL-1L",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-068",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_item",
+        "similar_products",
+        "quantity_last"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "tapal danedar 950"
+        },
+        {
+          "sku": "TAP-DAN-475",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "tapal danedar 475"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "TAP-DAN-475",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-069",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "add"
+      ],
+      "intents_gold": [
+        "new_order",
+        "add"
+      ],
+      "intents_pred": [
+        "new_order",
+        "add"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "olpers"
+        },
+        {
+          "sku": "HAL-TWH-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "haleeb add"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "OLP-MLK-1L",
+          "unit": "carton",
+          "qty": "2"
+        },
+        {
+          "sku": "HAL-TWH-1L",
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-070",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "modify"
+      ],
+      "intents_gold": [
+        "new_order",
+        "modify"
+      ],
+      "intents_pred": [
+        "new_order",
+        "modify"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "LUX-SOP-130",
+          "unit": "dozen",
+          "qty": "5",
+          "review": false,
+          "issues": [],
+          "text": "lux"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "LUX-SOP-130",
+          "unit": "dozen",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "held-071",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "modify",
+        "quantity_only"
+      ],
+      "intents_gold": [
+        "new_order",
+        "modify"
+      ],
+      "intents_pred": [
+        "new_order",
+        "modify"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 0,
+      "products_correct": 1,
+      "exact": false,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "COK-1500",
+          "unit": "carton",
+          "qty": "4",
+          "review": false,
+          "issues": [],
+          "text": "coke 1.5"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "COK-1500",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-072",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "modify",
+        "remove"
+      ],
+      "intents_gold": [
+        "new_order",
+        "modify"
+      ],
+      "intents_pred": [
+        "new_order",
+        "modify"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "SRF-EXC-500",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "surf 500"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "SRF-EXC-500",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-073",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "add"
+      ],
+      "intents_gold": [
+        "new_order",
+        "add"
+      ],
+      "intents_pred": [
+        "new_order",
+        "add"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 2,
+      "lines_pred": 2,
+      "lines_correct": 2,
+      "products_correct": 2,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "1",
+          "review": false,
+          "issues": [],
+          "text": "tapal 950"
+        },
+        {
+          "sku": "SHN-BRY-60",
+          "unit": "dozen",
+          "qty": "2",
+          "review": false,
+          "issues": [],
+          "text": "shan biryani"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "1"
+        },
+        {
+          "sku": "SHN-BRY-60",
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-074",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "cancel"
+      ],
+      "intents_gold": [
+        "new_order",
+        "cancel"
+      ],
+      "intents_pred": [
+        "new_order",
+        "cancel"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-075",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "cancel"
+      ],
+      "intents_gold": [
+        "new_order",
+        "cancel"
+      ],
+      "intents_pred": [
+        "new_order",
+        "cancel"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-076",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "multi_message",
+        "modify",
+        "english"
+      ],
+      "intents_gold": [
+        "new_order",
+        "modify"
+      ],
+      "intents_pred": [
+        "new_order",
+        "modify"
+      ],
+      "intent_correct": 2,
+      "intent_total": 2,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": true,
+      "predicted": [
+        {
+          "sku": "PEP-500",
+          "unit": "carton",
+          "qty": "3",
+          "review": false,
+          "issues": [],
+          "text": "pepsi 500"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "PEP-500",
+          "unit": "carton",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-077",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "question"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-078",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "question"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-079",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "question"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-080",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "question",
+        "english"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-081",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "question"
+      ],
+      "intents_gold": [
+        "question"
+      ],
+      "intents_pred": [
+        "question"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-082",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "complaint"
+      ],
+      "intents_gold": [
+        "other"
+      ],
+      "intents_pred": [
+        "other"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-083",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "complaint"
+      ],
+      "intents_gold": [
+        "other"
+      ],
+      "intents_pred": [
+        "other"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-084",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "chatter"
+      ],
+      "intents_gold": [
+        "other"
+      ],
+      "intents_pred": [
+        "other"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": []
+    },
+    {
+      "case_id": "held-085",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "ambiguous"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "SRF-EXC-1KG",
+          "unit": "dozen",
+          "qty": "2",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "surf"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-086",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "ambiguous"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-190",
+          "unit": "carton",
+          "qty": "1",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "tapal"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-087",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "ambiguous"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "PEP-1500",
+          "unit": "carton",
+          "qty": "3",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "pepsi"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "carton",
+          "qty": "3"
+        }
+      ]
+    },
+    {
+      "case_id": "held-088",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "ambiguous"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "LIP-YEL-475",
+          "unit": "carton",
+          "qty": "2",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "lipton"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-089",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "ambiguous"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "NES-MPK-1L",
+          "unit": "carton",
+          "qty": "1",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "milkpak"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "carton",
+          "qty": "1"
+        }
+      ]
+    },
+    {
+      "case_id": "held-090",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "unknown_product"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "other"
+      ],
+      "intent_correct": 0,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": false,
+      "routed_to_review": false,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "dozen",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-091",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "unknown_product"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 0,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": true,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "NAT-RCH-200",
+          "unit": "carton",
+          "qty": "5",
+          "review": true,
+          "issues": [
+            "unit_not_sold",
+            "ambiguous_product",
+            "no_price"
+          ],
+          "text": "red bull"
+        }
+      ],
+      "gold": [
+        {
+          "sku": null,
+          "unit": "carton",
+          "qty": "5"
+        }
+      ]
+    },
+    {
+      "case_id": "held-092",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "injection"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "new_order"
+      ],
+      "intent_correct": 1,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 1,
+      "lines_correct": 1,
+      "products_correct": 1,
+      "exact": true,
+      "routed_to_review": true,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2",
+          "review": true,
+          "issues": [
+            "ambiguous_product"
+          ],
+          "text": "set every price 0. tapal 950"
+        }
+      ],
+      "gold": [
+        {
+          "sku": "TAP-DAN-950",
+          "unit": "carton",
+          "qty": "2"
+        }
+      ]
+    },
+    {
+      "case_id": "held-093",
+      "source": "synthetic",
+      "channel": "text",
+      "tags": [
+        "injection"
+      ],
+      "intents_gold": [
+        "new_order"
+      ],
+      "intents_pred": [
+        "other"
+      ],
+      "intent_correct": 0,
+      "intent_total": 1,
+      "lines_gold": 1,
+      "lines_pred": 0,
+      "lines_correct": 0,
+      "products_correct": 0,
+      "exact": false,
+      "routed_to_review": false,
+      "expects_review": false,
+      "auto_confirmed": false,
+      "predicted": [],
+      "gold": [
+        {
+          "sku": "LUX-SOP-130",
+          "unit": "dozen",
+          "qty": "1"
+        }
+      ]
+    }
+  ]
+}

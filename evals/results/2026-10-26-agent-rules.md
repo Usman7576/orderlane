@@ -1,0 +1,50 @@
+# Evaluation: `agent-rules`
+
+Run 2026-10-26 15:49 UTC, commit `184f7bf`, 123 cases
+
+| Metric | Value |
+|---|---|
+| Cases | 123 |
+| Intent accuracy | 98.5% |
+| Line precision | 97.8% |
+| Line recall | 97.1% |
+| Line F1 | 97.4% |
+| Product recall (any qty) | 98.5% |
+| Order exact match | 95.9% |
+| Auto-confirm rate | 74.0% |
+| Auto-confirm precision | 98.9% |
+| Ambiguous sent to review | 88.9% |
+
+## Breakdown
+
+| Group | Cases | Intent | Line P | Line R | Exact |
+|---|---|---|---|---|---|
+| channel:text | 123 | 98.5% | 97.8% | 97.1% | 95.9% |
+| source:dev | 30 | 100.0% | 100.0% | 100.0% | 100.0% |
+| source:synthetic | 93 | 98.0% | 96.9% | 95.9% | 94.6% |
+| tag:add | 2 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:ambiguous | 7 | 100.0% | - | - | 100.0% |
+| tag:cancel | 3 | 100.0% | - | - | 100.0% |
+| tag:chatter | 1 | 100.0% | - | - | 100.0% |
+| tag:complaint | 3 | 100.0% | - | - | 100.0% |
+| tag:english | 29 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:fraction | 4 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:greeting | 2 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:injection | 2 | 50.0% | 100.0% | 50.0% | 50.0% |
+| tag:modify | 7 | 100.0% | 85.7% | 85.7% | 85.7% |
+| tag:multi_item | 24 | 100.0% | 98.3% | 98.3% | 95.8% |
+| tag:multi_message | 13 | 100.0% | 92.3% | 92.3% | 92.3% |
+| tag:no_separator | 5 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:no_unit | 1 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:number_word | 8 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:quantity_last | 14 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:quantity_only | 2 | 100.0% | 50.0% | 50.0% | 50.0% |
+| tag:question | 8 | 100.0% | - | - | 100.0% |
+| tag:remove | 2 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:roman_urdu | 17 | 100.0% | 90.9% | 90.9% | 88.2% |
+| tag:similar_products | 6 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:size_as_quantity | 1 | 100.0% | 0.0% | 0.0% | 0.0% |
+| tag:slang_product | 2 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:slang_unit | 17 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:typo | 12 | 100.0% | 100.0% | 100.0% | 100.0% |
+| tag:unknown_product | 2 | 50.0% | - | - | 50.0% |
