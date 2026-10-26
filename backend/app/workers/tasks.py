@@ -1,6 +1,6 @@
 """Background tasks run by the arq worker."""
 
-import time
+import uuid
 from contextlib import AbstractAsyncContextManager, nullcontext
 from typing import Any
 
@@ -110,7 +110,7 @@ async def schedule_delivery(
         _job_id=(
             f"deliver:{customer_id}:{after_message_id}"
             if reason == "message"
-            else f"deliver:{customer_id}:{reason}:{time.time_ns()}"
+            else f"deliver:{customer_id}:{reason}:{uuid.uuid4().hex}"
         ),
         _defer_by=delay_s,
     )

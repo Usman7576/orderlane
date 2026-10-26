@@ -1,4 +1,4 @@
-import time
+import uuid
 from typing import Protocol
 
 from arq.connections import ArqRedis
@@ -32,7 +32,7 @@ class ArqJobQueue:
             PROCESS_MESSAGE,
             message_id,
             job_id,
-            _job_id=f"message:{message_id}:retry:{time.time_ns()}",
+            _job_id=f"message:{message_id}:retry:{uuid.uuid4().hex}",
         )
 
     async def enqueue_review(
@@ -46,5 +46,5 @@ class ArqJobQueue:
             user_id,
             # Unique per request; a duplicate click fails harmlessly in the worker
             # because the order is no longer waiting for review.
-            _job_id=f"review:{order_id}:{time.time_ns()}",
+            _job_id=f"review:{order_id}:{uuid.uuid4().hex}",
         )

@@ -197,7 +197,8 @@ def main() -> None:
     if not args.no_save:
         args.out.mkdir(parents=True, exist_ok=True)
         stem = f"{datetime.now(UTC):%Y-%m-%d}-{args.config}"
-        (args.out / f"{stem}.md").write_text(report, encoding="utf-8")
+        (args.out / f"{stem}.md").write_text(report, encoding="utf-8", newline="
+")
         payload = {
             "meta": meta,
             "summary": summary,
@@ -205,7 +206,8 @@ def main() -> None:
             "cases": [as_dict(s) for s in scores],
         }
         (args.out / f"{stem}.json").write_text(
-            json.dumps(payload, indent=2, default=str), encoding="utf-8"
+            json.dumps(payload, indent=2, default=str), encoding="utf-8", newline="
+"
         )
         print(f"Saved {args.out / stem}.md and .json")
 

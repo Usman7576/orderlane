@@ -1,5 +1,6 @@
 """Dashboard API against PostgreSQL: sign-in security and the staff review workflow."""
 
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 
@@ -296,3 +297,29 @@ async def test_failed_job_can_be_retried(
     async with session_factory() as session:
         assert (await session.get_one(Job, job_id)).status == JobStatus.QUEUED
         assert (await session.get_one(Message, message_id)).status == "received"
+
+
+@pytest.mark.parametrize(
+    ("field", "age"),
+    [("last_seen_at", {"hours": 13}), ("expires_at", {"days": 0, "seconds": -1})],
+    ids=["idle_for_13_hours", "past_absolute_limit"],
+)
+async def test_expired_sessions_are_refused_and_deleted(
+    db_client: httpx.AsyncClient, session_factory: Factory, field: str, age: dict[str, int]
+) -> None:
+    business_id = await seeded_business(session_factory)
+    await _add_user(session_factory, business_id)
+    await _login(db_client)
+    async with session_factory() as session:
+        row = (await session.execute(select(UserSession))).scalar_one()
+        now = datetime.now(UTC)
+        setattr(
+            row,
+            field,
+            now - timedelta(**age) if field == "last_seen_at" else now + timedelta(**age),
+        )
+        await session.commit()
+
+    assert (await db_client.get("/api/orders")).status_code == 401
+    async with session_factory() as session:
+        assert (await session.execute(select(UserSession))).first() is None
