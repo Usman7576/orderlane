@@ -39,6 +39,7 @@ class AgentState(TypedDict, total=False):
     order_number: int | None
     review: dict[str, Any] | None  # staff decision after a review pause
     reply: str | None
+    chat_kind: str  # for non-order messages: greeting, thanks, ack, complaint, other
 
 
 @dataclass(frozen=True)

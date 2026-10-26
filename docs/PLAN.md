@@ -23,6 +23,7 @@
 | 4 | Reply delivery with burst grouping, Confirm/Edit/Cancel buttons, stock reservation, ledger, PDF invoices, staff edit/approve/reject (resumes the paused run) | Tests, CI |
 | 5 | Dashboard API with secure login (Argon2, server-side sessions, CSRF, lockout, audit log) and the React dashboard: Orders, Order review, Catalog, Customers, Failed jobs | 184 tests pass locally in Docker and in CI; every screen checked live in the browser |
 | 6 | 93-case held-out test set (frozen before any run) and `docs/eval-report.md` (rules: 94.6% exact match, 98.6% auto-confirm precision); route security tests that cover every API endpoint automatically; session expiry tests; web chat simulator (real pipeline, no WhatsApp needed); Metrics page (live traffic next to offline results); Playwright UI flow tests with a mocked API, run in CI | Unit and UI tests locally; database tests in CI |
+| 6+ | Messages inbox: non-order messages classified (greeting, thanks, ok, complaint, other); small talk answered automatically; the rest in a staff inbox with replies from the dashboard, Mark done, Reopen, complaint flag, sidebar count; migration 0004 | 247 backend tests with Postgres, 5 UI tests; checked live through the simulator and worker; evaluation unchanged |
 
 **Also done:**
 - **Live check of the full stack.** It found and fixed: approval replies never being sent (duplicate job IDs), cancelled orders losing their lines, unclear lines not flagged in the inbox, and the worker not reloading code.
@@ -458,6 +459,7 @@ All dashboard endpoints require login and are filtered by `business_id`.
 6. **Web chat simulator** (section 11.4).
 7. **Metrics:** orders by status, auto-confirm rate, staff correction rate, median and 95th-percentile latency, cost per order, latest evaluation results.
 8. **Jobs:** failed jobs with errors and a retry button.
+9. **Messages:** messages the agent hands to staff (complaints first, questions it can't answer, photos), the conversation, a reply box, Mark done and Reopen. Greetings, thanks and "ok" are answered by the agent and never reach staff. Replies are blocked after WhatsApp's 24-hour window.
 
 ---
 

@@ -1,6 +1,7 @@
+from datetime import datetime
 from typing import Any
 
-from sqlalchemy import ForeignKey, Integer, String, Text, UniqueConstraint
+from sqlalchemy import DateTime, ForeignKey, Integer, String, Text, UniqueConstraint
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -30,6 +31,10 @@ class Message(TimestampMixin, Base):
     status: Mapped[str] = mapped_column(String(16), default=MessageStatus.RECEIVED)
     error: Mapped[str | None] = mapped_column(Text)
     raw: Mapped[dict[str, Any] | None] = mapped_column(JSONB)
+    # Inbound messages the agent can't handle wait in the staff inbox until handled.
+    attention: Mapped[str | None] = mapped_column(String(16), index=True)
+    handled_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    handled_by_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
 
 
 class Job(TimestampMixin, Base):

@@ -33,6 +33,9 @@ def confirmation(number: int | None, summary: str) -> str:
 
 REVIEW_HOLD = "Thanks! We're checking your order and will confirm it shortly."
 HANDOFF = "Thanks for your message. Our team will get back to you soon."
+COMPLAINT = "We're sorry about this. Our team will look into it and get back to you soon."
+THANKS = "You're welcome!"
+GREETING_ORDER_HINT = "Send your order any time, for example: 2 ctn tapal 950, 1 dz surf."
 CANCELLED = "Your order has been cancelled."
 NOT_FOUND = "Sorry, we couldn't find that product. Our team will get back to you."
 EDIT_PROMPT = 'Sure, send your changes. For example: "surf 3 dz kar do" or "tapal hata do".'
@@ -55,3 +58,9 @@ def price_answer(rows: list[tuple[str, str, Decimal]]) -> str:
 
 def stock_answer(rows: list[tuple[str, bool]]) -> str:
     return "\n".join(f"{name}: {'in stock' if ok else 'out of stock'}" for name, ok in rows)
+
+
+def greeting(text: str) -> str:
+    """Return a salam with a salam, anything else with a hello."""
+    opener = "Wa alaikum assalam!" if "sal" in text.lower() or "aoa" in text.lower() else "Hello!"
+    return f"{opener} {GREETING_ORDER_HINT}"

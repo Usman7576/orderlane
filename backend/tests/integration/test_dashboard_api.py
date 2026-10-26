@@ -392,3 +392,126 @@ async def test_metrics_count_live_orders_and_agent_runs(
     assert live["agent_errors"] == 0
     assert live["latency_p50_ms"] is not None
     assert live["match_methods"]  # lines matched by alias or fuzzy
+
+
+# --- Staff inbox ---
+
+
+async def _process(factory: Factory, business_id: int, tmp_path: Path, text: str) -> int:
+    message_id, _ = await save_message(factory, business_id, body=text)
+    async with factory() as session:
+        await process_message(session, message_id, make_runtime(tmp_path))
+        await session.commit()
+    return message_id
+
+
+async def test_inbox_holds_only_messages_that_need_a_person(
+    db_client: httpx.AsyncClient, session_factory: Factory, queue: FakeQueue, tmp_path: Path
+) -> None:
+    business_id = await seeded_business(session_factory)
+    await _add_user(session_factory, business_id)
+    greeting = await _process(session_factory, business_id, tmp_path, "Assalam o alaikum")
+    complaint = await _process(session_factory, business_id, tmp_path, "kal ka oil leak tha")
+    question = await _process(session_factory, business_id, tmp_path, "payment bhej di hai")
+    await _login(db_client)
+
+    page = (await db_client.get("/api/inbox")).json()
+    summary = (await db_client.get("/api/summary")).json()
+
+    # Complaints first; the greeting was answered by the agent and never reached staff.
+    assert [(i["id"], i["attention"]) for i in page["items"]] == [
+        (complaint, "complaint"),
+        (question, "reply"),
+    ]
+    assert page["open"] == summary["open_messages"] == 2
+    async with session_factory() as session:
+        replies_sent = (
+            (
+                await session.execute(
+                    select(Message.body).where(Message.direction == "out").order_by(Message.id)
+                )
+            )
+            .scalars()
+            .all()
+        )
+    assert replies_sent[0].startswith("Wa alaikum assalam!")
+    assert "sorry" in replies_sent[1].lower()
+    assert (await db_client.get(f"/api/inbox/{greeting}")).status_code == 404
+
+    detail = (await db_client.get(f"/api/inbox/{question}")).json()
+    assert detail["reply_window_open"] is True
+    assert [m["body"] for m in detail["conversation"] if m["direction"] == "in"] == [
+        "Assalam o alaikum",
+        "kal ka oil leak tha",
+        "payment bhej di hai",
+    ]
+
+    reply = await db_client.post(
+        f"/api/inbox/{question}/reply",
+        json={"body": "Shukriya, payment mil gayi."},
+        headers=_headers(db_client),
+    )
+
+    # One reply answers the whole conversation: both open messages are now handled.
+    assert reply.status_code == 202
+    assert len(queue.deliveries) == 1
+    assert (await db_client.get("/api/inbox")).json()["items"] == []
+    done = (await db_client.get("/api/inbox", params={"state": "done"})).json()["items"]
+    assert {i["id"] for i in done} == {complaint, question}
+    assert all(i["handled_by"] == "Staff" for i in done)
+    async with session_factory() as session:
+        staff_reply = await session.scalar(
+            select(Message).where(Message.body == "Shukriya, payment mil gayi.")
+        )
+        events = (await session.execute(select(AuditEvent.action))).scalars().all()
+    assert staff_reply is not None and staff_reply.raw is not None
+    assert (staff_reply.status, staff_reply.raw["kind"]) == ("queued", "staff")
+    assert "inbox_replied" in events
+
+    reopened = await db_client.post(f"/api/inbox/{complaint}/reopen", headers=_headers(db_client))
+    assert reopened.json()["handled_at"] is None
+    assert [i["id"] for i in (await db_client.get("/api/inbox")).json()["items"]] == [complaint]
+
+
+async def test_inbox_refuses_replies_after_whatsapps_24_hour_window(
+    db_client: httpx.AsyncClient, session_factory: Factory, queue: FakeQueue, tmp_path: Path
+) -> None:
+    business_id = await seeded_business(session_factory)
+    await _add_user(session_factory, business_id)
+    message_id = await _process(session_factory, business_id, tmp_path, "rider nahi aaya")
+    async with session_factory() as session:
+        message = await session.get_one(Message, message_id)
+        message.created_at = datetime.now(UTC) - timedelta(hours=25)
+        await session.commit()
+    await _login(db_client)
+
+    detail = (await db_client.get(f"/api/inbox/{message_id}")).json()
+    response = await db_client.post(
+        f"/api/inbox/{message_id}/reply", json={"body": "Sorry!"}, headers=_headers(db_client)
+    )
+
+    assert detail["reply_window_open"] is False
+    assert response.status_code == 409
+    assert "24 hours" in response.json()["detail"]
+    assert queue.deliveries == []
+    done = await db_client.post(f"/api/inbox/{message_id}/done", headers=_headers(db_client))
+    assert done.json()["handled_by"] == "Staff"
+
+
+async def test_inbox_is_private_to_each_business(
+    db_client: httpx.AsyncClient, session_factory: Factory, tmp_path: Path
+) -> None:
+    business_id = await seeded_business(session_factory)
+    message_id = await _process(session_factory, business_id, tmp_path, "payment bhej di")
+    async with session_factory() as session:
+        other = Business(name="Other Wholesale", settings={})
+        session.add(other)
+        await session.commit()
+        other_id = other.id
+    await _add_user(session_factory, other_id, email="other@orderlane.test")
+    await _login(db_client, email="other@orderlane.test")
+
+    assert (await db_client.get("/api/inbox")).json() == {"items": [], "open": 0}
+    assert (await db_client.get(f"/api/inbox/{message_id}")).status_code == 404
+    response = await db_client.post(f"/api/inbox/{message_id}/done", headers=_headers(db_client))
+    assert response.status_code == 404

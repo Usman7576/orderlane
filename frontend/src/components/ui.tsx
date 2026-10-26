@@ -32,7 +32,7 @@ export function Button({
       type="button"
       disabled={disabled || loading}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg font-medium transition-colors",
+        "inline-flex shrink-0 items-center justify-center gap-2 rounded-lg font-medium whitespace-nowrap transition-colors",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600",
         "disabled:cursor-not-allowed disabled:opacity-60",
         size === "sm" ? "h-8 px-3 text-sm" : "h-10 px-4 text-sm",

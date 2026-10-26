@@ -61,6 +61,13 @@ class MatchMethod(StrEnum):
     STAFF = "staff"
 
 
+class Attention(StrEnum):
+    """Why an inbound message is waiting in the staff inbox."""
+
+    REPLY = "reply"
+    COMPLAINT = "complaint"
+
+
 class Actor(StrEnum):
     AGENT = "agent"
     STAFF = "staff"
@@ -92,6 +99,7 @@ class ReplyKind(StrEnum):
     ORDER_CONFIRMED = "order_confirmed"
     INVOICE = "invoice"
     INFO = "info"
+    STAFF = "staff"  # written by staff in the Messages inbox
 
 
 # Replies about the state of the open order: only the newest one is worth sending.

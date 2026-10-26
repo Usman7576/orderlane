@@ -117,6 +117,7 @@ export async function mockApi(page: Page, { signedIn = true } = {}): Promise<Moc
   const state: MockApi = { requests: [] };
   const order = makeOrder();
   const chat: SimMessage[] = [];
+  const inbox = makeInbox();
   let user: typeof USER | null = signedIn ? USER : null;
 
   await page.route("**/api/**", async (route) => {
@@ -142,6 +143,7 @@ export async function mockApi(page: Page, { signedIn = true } = {}): Promise<Moc
         orders_by_status: { [order.status]: 1 },
         needs_review: order.status === "pending_review" ? 1 : 0,
         failed_jobs: 0,
+        open_messages: inbox.filter((m) => !m.handled_at).length,
         messages_today: 1,
         agent_runs_today: 1,
         avg_latency_ms: 400,
@@ -223,7 +225,60 @@ export async function mockApi(page: Page, { signedIn = true } = {}): Promise<Moc
     }
     if (path === "/api/metrics") return json(route, METRICS);
 
+    if (path === "/api/inbox") {
+      const done = url.searchParams.get("state") === "done";
+      const items = inbox.filter((m) => !!m.handled_at === done).map(summaryOf);
+      return json(route, { items, open: inbox.filter((m) => !m.handled_at).length });
+    }
+    const inboxMatch = /^\/api\/inbox\/(\d+)(?:\/(reply|done|reopen))?$/.exec(path);
+    if (inboxMatch) {
+      const message = inbox.find((m) => m.id === Number(inboxMatch[1]));
+      if (!message) return json(route, { detail: "message not found" }, 404);
+      const action = inboxMatch[2];
+      if (!action) return json(route, { ...message, reply_window_open: true });
+      if (action === "reply") {
+        const text = (body as { body: string }).body;
+        message.conversation.push({ id: 99, direction: "out", body: text, status: "queued", kind: "staff", created_at: NOW });
+      }
+      message.handled_at = action === "reopen" ? null : NOW;
+      message.handled_by = action === "reopen" ? null : "Staff";
+      return json(route, summaryOf(message), action === "reply" ? 202 : 200);
+    }
+
     return json(route, { detail: `No mock for ${method} ${path}` }, 404);
   });
   return state;
+}
+
+/** An inbox list row: the message without its conversation. */
+function summaryOf(message: ReturnType<typeof makeInbox>[number]) {
+  return Object.fromEntries(Object.entries(message).filter(([key]) => key !== "conversation"));
+}
+
+function makeInbox() {
+  const customer = { id: 3, name: "Bismillah Store", phone: "923001112233" };
+  return [
+    {
+      id: 21,
+      customer,
+      channel: "whatsapp",
+      type: "text",
+      body: "kal ka oil ka tin leak tha",
+      attention: "complaint",
+      created_at: NOW,
+      handled_at: null as string | null,
+      handled_by: null as string | null,
+      conversation: [
+        { id: 21, direction: "in", body: "kal ka oil ka tin leak tha", status: "processed", kind: "complaint", created_at: NOW },
+        {
+          id: 22,
+          direction: "out",
+          body: "We're sorry about this. Our team will look into it and get back to you soon.",
+          status: "sent",
+          kind: "handoff",
+          created_at: NOW,
+        },
+      ],
+    },
+  ];
 }

@@ -16,6 +16,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.agent.graph import AgentGraph, AgentOutcome, run_message
 from app.agent.prompts import PROMPT_VERSION
 from app.agent.routing import ANSWER, ASK_CUSTOMER, CANCELLED, HANDOFF, STAFF_REVIEW
+from app.agent.smalltalk import ChatKind
 from app.agent.state import AgentDeps, AgentSettings
 from app.agent.tools import DbOrderTools
 from app.integrations.llm import LLM, Usage
@@ -24,7 +25,7 @@ from app.integrations.whatsapp import WhatsAppClient
 from app.matching.catalog import CatalogIndex
 from app.matching.matcher import Matcher
 from app.models import AgentRun, AgentStep, Message, Order
-from app.models.enums import MessageStatus, MessageType, ReplyKind
+from app.models.enums import Attention, MessageStatus, MessageType, ReplyKind
 from app.services.inbound import get_or_create_customer
 from app.services.order_actions import handle_customer_action, parse_action
 from app.services.outbound import queue_reply
@@ -83,6 +84,15 @@ _REPLY_KIND = {
     HANDOFF: ReplyKind.HANDOFF,
     CANCELLED: ReplyKind.CANCELLED,
 }
+
+
+def _attention(chat_kind: str) -> Attention | None:
+    """Small talk is answered by the agent; anything else goes to the staff inbox."""
+    if chat_kind == ChatKind.COMPLAINT:
+        return Attention.COMPLAINT
+    if chat_kind in (ChatKind.GREETING, ChatKind.THANKS, ChatKind.ACK):
+        return None
+    return Attention.REPLY
 
 
 async def _transcribe(session: AsyncSession, message: Message, rt: Runtime) -> str | None:
@@ -180,6 +190,9 @@ async def process_message(session: AsyncSession, message_id: int, rt: Runtime) -
         text = None  # stickers, images and stale buttons are ignored
     if not text:
         message.status = MessageStatus.PROCESSED
+        # A photo, a document or a voice note we couldn't transcribe: a person has to look.
+        if message.type != MessageType.INTERACTIVE:
+            message.attention = Attention.REPLY
         return ProcessResult(message_id, customer.id, skipped=f"no text ({message.type})")
 
     index = await rt.catalog.get(session, message.business_id)
@@ -216,6 +229,8 @@ async def process_message(session: AsyncSession, message_id: int, rt: Runtime) -
             body=outcome.reply,
             order_id=order_id,
         )
+    if outcome.state.get("route") == HANDOFF:
+        message.attention = _attention(str(outcome.state.get("chat_kind", ChatKind.OTHER)))
     message.status = MessageStatus.PROCESSED
     log.info(
         "agent.run",

@@ -10,6 +10,7 @@ from app.api import (
     catalog,
     customers,
     health,
+    inbox,
     metrics,
     operations,
     orders,
@@ -45,7 +46,7 @@ def create_app() -> FastAPI:
     app = FastAPI(title="OrderLane API", version="0.1.0", lifespan=lifespan)
     app.include_router(health.router)
     app.include_router(webhooks.router)
-    for module in (auth, orders, catalog, customers, operations, metrics, simulator):
+    for module in (auth, orders, catalog, customers, operations, metrics, simulator, inbox):
         app.include_router(module.router)
     return app
 

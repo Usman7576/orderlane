@@ -61,3 +61,30 @@ test("the metrics page shows held-out results and live numbers", async ({ page }
   await page.getByLabel("Dataset").selectOption({ label: "Development set" });
   await expect(page.getByText("30 cases")).toBeVisible();
 });
+
+test("staff answer a complaint from the Messages inbox", async ({ page }) => {
+  const api = await mockApi(page);
+  await page.goto("/messages");
+
+  await expect(page.getByRole("link", { name: /Messages\s*1/ })).toBeVisible();
+  await expect(page.getByText("Complaint")).toBeVisible();
+  await expect(page.getByLabel("Conversation")).toContainText("We're sorry about this.");
+
+  await page.getByLabel("Reply", { exact: true }).fill("Maazrat, naya tin aaj bhej rahe hain.");
+  await page.getByRole("button", { name: "Send reply" }).click();
+
+  await expect(page.getByText("Reply sent.")).toBeVisible();
+  await expect(page.getByText("Nothing waiting")).toBeVisible();
+  expect(api.requests).toContainEqual(
+    expect.objectContaining({
+      method: "POST",
+      path: "/api/inbox/21/reply",
+      body: { body: "Maazrat, naya tin aaj bhej rahe hain." },
+    }),
+  );
+
+  await page.getByRole("tab", { name: "Done" }).click();
+  await expect(page.getByText("Handled by Staff")).toBeVisible();
+  await page.getByRole("button", { name: "Reopen" }).click();
+  await expect(page.getByText("Moved back to open.")).toBeVisible();
+});

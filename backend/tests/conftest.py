@@ -30,6 +30,7 @@ class FakeQueue:
     calls: list[tuple[int, int]] = field(default_factory=list)
     retries: list[tuple[int, int]] = field(default_factory=list)
     reviews: list[tuple[int, int, str, int]] = field(default_factory=list)
+    deliveries: list[tuple[int, int]] = field(default_factory=list)
 
     async def enqueue_message(self, message_id: int, job_id: int) -> None:
         self.calls.append((message_id, job_id))
@@ -41,6 +42,9 @@ class FakeQueue:
         self, business_id: int, order_id: int, action: str, user_id: int
     ) -> None:
         self.reviews.append((business_id, order_id, action, user_id))
+
+    async def enqueue_delivery(self, customer_id: int, after_message_id: int) -> None:
+        self.deliveries.append((customer_id, after_message_id))
 
 
 @pytest.fixture

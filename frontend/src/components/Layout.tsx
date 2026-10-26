@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, BarChart3, Boxes, Inbox, LogOut, MessageSquare, Users } from "lucide-react";
+import { AlertTriangle, BarChart3, Boxes, Inbox, LogOut, MessageCircle, MessageSquare, Users } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 
 import { api } from "../lib/api";
@@ -62,6 +62,7 @@ export function Layout() {
         </div>
         <nav className="flex flex-col gap-1" aria-label="Main">
           <NavItem to="/orders" icon={Inbox} label="Orders" count={summary.data?.needs_review} />
+          <NavItem to="/messages" icon={MessageCircle} label="Messages" count={summary.data?.open_messages} />
           <NavItem to="/catalog" icon={Boxes} label="Catalog" />
           <NavItem to="/customers" icon={Users} label="Customers" />
           <NavItem to="/jobs" icon={AlertTriangle} label="Failed jobs" count={summary.data?.failed_jobs} alert />
@@ -82,10 +83,11 @@ export function Layout() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-ink-200 bg-white px-4 py-3 md:hidden">
-          <span className="font-semibold text-ink-900">OrderLane</span>
-          <nav className="flex gap-3 text-sm text-ink-600" aria-label="Main">
+        <header className="flex items-center gap-4 border-b border-ink-200 bg-white px-4 py-3 md:hidden">
+          <span className="shrink-0 font-semibold text-ink-900">OrderLane</span>
+          <nav className="flex min-w-0 gap-3 overflow-x-auto text-sm whitespace-nowrap text-ink-600" aria-label="Main">
             <NavLink to="/orders">Orders</NavLink>
+            <NavLink to="/messages">Messages</NavLink>
             <NavLink to="/catalog">Catalog</NavLink>
             <NavLink to="/customers">Customers</NavLink>
             <NavLink to="/jobs">Jobs</NavLink>

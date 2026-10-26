@@ -10,7 +10,7 @@ from typing import Any
 from langgraph.runtime import Runtime
 from langgraph.types import interrupt
 
-from app.agent import replies
+from app.agent import replies, smalltalk
 from app.agent.prompts import (
     CHOOSE_SYSTEM,
     INTERPRET_SYSTEM,
@@ -26,6 +26,7 @@ from app.agent.routing import (
     decide_route,
 )
 from app.agent.schemas import Interpretation, ProductChoice
+from app.agent.smalltalk import ChatKind
 from app.agent.state import AgentDeps, AgentState, draft_from_state, draft_to_state
 from app.integrations.llm import LLMError
 from app.matching.lexicon import REMOVE_WORDS
@@ -449,4 +450,13 @@ async def hold_reply(state: AgentState, runtime: Runtime[AgentDeps]) -> dict[str
 
 @traced("handoff")
 async def handoff(state: AgentState, runtime: Runtime[AgentDeps]) -> dict[str, Any]:
-    return {"route": HANDOFF, "reply": replies.HANDOFF}
+    """Not an order or a question: answer small talk, hand everything else to staff."""
+    text = state.get("text", "")
+    kind = smalltalk.classify(text)
+    reply = {
+        ChatKind.GREETING: replies.greeting(text),
+        ChatKind.THANKS: replies.THANKS,
+        ChatKind.ACK: None,
+        ChatKind.COMPLAINT: replies.COMPLAINT,
+    }.get(kind, replies.HANDOFF)
+    return {"route": HANDOFF, "reply": reply, "chat_kind": kind.value}

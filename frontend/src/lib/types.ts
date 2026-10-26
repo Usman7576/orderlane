@@ -180,8 +180,31 @@ export interface Summary {
   orders_by_status: Partial<Record<OrderStatus, number>>;
   needs_review: number;
   failed_jobs: number;
+  open_messages: number;
   messages_today: number;
   agent_runs_today: number;
   avg_latency_ms: number | null;
   llm_cost_today: Money;
+}
+
+export interface InboxItem {
+  id: number;
+  customer: { id: number; name: string; phone: string };
+  channel: string;
+  type: string;
+  body: string;
+  attention: "reply" | "complaint";
+  created_at: string;
+  handled_at: string | null;
+  handled_by: string | null;
+}
+
+export interface InboxPage {
+  items: InboxItem[];
+  open: number;
+}
+
+export interface InboxDetail extends InboxItem {
+  conversation: { id: number; direction: "in" | "out"; body: string; status: string; kind: string | null; created_at: string }[];
+  reply_window_open: boolean;
 }

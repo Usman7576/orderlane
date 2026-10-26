@@ -5,6 +5,7 @@ from arq.connections import ArqRedis
 
 PROCESS_MESSAGE = "process_inbound_message"
 REVIEW_ORDER = "review_order_task"
+DELIVER_REPLIES = "deliver_replies"
 
 
 class JobQueue(Protocol):
@@ -13,6 +14,7 @@ class JobQueue(Protocol):
     async def enqueue_review(
         self, business_id: int, order_id: int, action: str, user_id: int
     ) -> None: ...
+    async def enqueue_delivery(self, customer_id: int, after_message_id: int) -> None: ...
 
 
 class ArqJobQueue:
@@ -47,4 +49,13 @@ class ArqJobQueue:
             # Unique per request; a duplicate click fails harmlessly in the worker
             # because the order is no longer waiting for review.
             _job_id=f"review:{order_id}:{uuid.uuid4().hex}",
+        )
+
+    async def enqueue_delivery(self, customer_id: int, after_message_id: int) -> None:
+        """Send a staff reply now. Unique ID: arq drops a job ID it has seen before."""
+        await self._redis.enqueue_job(
+            DELIVER_REPLIES,
+            customer_id,
+            after_message_id,
+            _job_id=f"deliver:{customer_id}:staff:{uuid.uuid4().hex}",
         )

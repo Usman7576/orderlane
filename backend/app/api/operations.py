@@ -98,6 +98,7 @@ class Summary(BaseModel):
     orders_by_status: dict[str, int]
     needs_review: int
     failed_jobs: int
+    open_messages: int
     messages_today: int
     agent_runs_today: int
     avg_latency_ms: int | None
@@ -122,6 +123,13 @@ async def summary(user: CurrentUser, session: SessionDep) -> Summary:
         .join(Message, Message.id == Job.message_id)
         .where(Message.business_id == user.business_id, Job.status == JobStatus.FAILED)
     )
+    open_messages = await session.scalar(
+        select(func.count()).where(
+            Message.business_id == user.business_id,
+            Message.attention.is_not(None),
+            Message.handled_at.is_(None),
+        )
+    )
     messages = await session.scalar(
         select(func.count()).where(
             Message.business_id == user.business_id,
@@ -145,6 +153,7 @@ async def summary(user: CurrentUser, session: SessionDep) -> Summary:
         orders_by_status={str(k): int(v) for k, v in by_status.items()},
         needs_review=int(by_status.get(OrderStatus.PENDING_REVIEW, 0)),
         failed_jobs=int(failed or 0),
+        open_messages=int(open_messages or 0),
         messages_today=int(messages or 0),
         agent_runs_today=int(runs[0] or 0),
         avg_latency_ms=int(runs[1]) if runs[1] is not None else None,
