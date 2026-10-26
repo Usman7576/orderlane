@@ -5,10 +5,11 @@ from arq import create_pool
 from arq.connections import RedisSettings
 from fastapi import FastAPI
 
-from app.api import health, webhooks
+from app.api import auth, catalog, customers, health, operations, orders, webhooks
 from app.config import get_settings
 from app.db import make_engine, make_session_factory
 from app.log import configure_logging
+from app.services.auth import RedisLoginLimiter
 from app.services.queue import ArqJobQueue
 
 
@@ -20,6 +21,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     app.state.session_factory = make_session_factory(engine)
     app.state.redis = redis
     app.state.queue = ArqJobQueue(redis)
+    app.state.login_limiter = RedisLoginLimiter(
+        redis, settings.login_max_failures, settings.login_lock_minutes * 60
+    )
     yield
     await redis.aclose()
     await engine.dispose()
@@ -31,6 +35,8 @@ def create_app() -> FastAPI:
     app = FastAPI(title="OrderLane API", version="0.1.0", lifespan=lifespan)
     app.include_router(health.router)
     app.include_router(webhooks.router)
+    for module in (auth, orders, catalog, customers, operations):
+        app.include_router(module.router)
     return app
 
 

@@ -1,6 +1,7 @@
 """Importing this package registers every table on Base.metadata (needed by Alembic)."""
 
 from app.models.agent import AgentRun, AgentStep, EvalRun, LlmCache
+from app.models.auth import AuditEvent, UserSession
 from app.models.base import Base
 from app.models.catalog import Inventory, PriceList, Product, ProductAlias, ProductUnit
 from app.models.customers import Customer, LedgerEntry
@@ -11,6 +12,7 @@ from app.models.tenancy import Business, User
 __all__ = [
     "AgentRun",
     "AgentStep",
+    "AuditEvent",
     "Base",
     "Business",
     "Customer",
@@ -29,4 +31,5 @@ __all__ = [
     "ProductAlias",
     "ProductUnit",
     "User",
+    "UserSession",
 ]

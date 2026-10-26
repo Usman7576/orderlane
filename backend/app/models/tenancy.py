@@ -26,5 +26,6 @@ class User(CreatedAtMixin, Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     business_id: Mapped[int] = mapped_column(ForeignKey("businesses.id"), index=True)
     email: Mapped[str] = mapped_column(String(320), unique=True)
+    name: Mapped[str | None] = mapped_column(String(120))
     password_hash: Mapped[str] = mapped_column(String(255))
     role: Mapped[str] = mapped_column(String(16), default=Role.STAFF)

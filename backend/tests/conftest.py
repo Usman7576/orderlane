@@ -15,9 +15,10 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 
 from app.config import Settings, get_settings
 from app.db import make_engine, make_session_factory
-from app.deps import get_queue, get_session
+from app.deps import get_limiter, get_queue, get_session
 from app.main import create_app
 from app.models import Base
+from app.services.auth import MemoryLoginLimiter
 from tests.factories import APP_SECRET, VERIFY_TOKEN
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
@@ -27,9 +28,19 @@ TEST_DATABASE_URL = os.environ.get("TEST_DATABASE_URL")
 @dataclass
 class FakeQueue:
     calls: list[tuple[int, int]] = field(default_factory=list)
+    retries: list[tuple[int, int]] = field(default_factory=list)
+    reviews: list[tuple[int, int, str, int]] = field(default_factory=list)
 
     async def enqueue_message(self, message_id: int, job_id: int) -> None:
         self.calls.append((message_id, job_id))
+
+    async def retry_message(self, message_id: int, job_id: int) -> None:
+        self.retries.append((message_id, job_id))
+
+    async def enqueue_review(
+        self, business_id: int, order_id: int, action: str, user_id: int
+    ) -> None:
+        self.reviews.append((business_id, order_id, action, user_id))
 
 
 @pytest.fixture
@@ -45,6 +56,11 @@ def settings() -> Settings:
 @pytest.fixture
 def queue() -> FakeQueue:
     return FakeQueue()
+
+
+@pytest.fixture
+def limiter() -> MemoryLoginLimiter:
+    return MemoryLoginLimiter(max_failures=5)
 
 
 # --- Database (only for tests marked `db`) ---
@@ -86,12 +102,16 @@ def no_db_session() -> Iterator[MagicMock]:
 
 
 async def _client(
-    settings: Settings, queue: FakeQueue, session_override: object
+    settings: Settings,
+    queue: FakeQueue,
+    session_override: object,
+    limiter: MemoryLoginLimiter | None = None,
 ) -> AsyncIterator[httpx.AsyncClient]:
     app = create_app()
     app.dependency_overrides[get_settings] = lambda: settings
     app.dependency_overrides[get_queue] = lambda: queue
     app.dependency_overrides[get_session] = session_override
+    app.dependency_overrides[get_limiter] = lambda: limiter or MemoryLoginLimiter()
     transport = httpx.ASGITransport(app=app)
     async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
         yield client
@@ -112,11 +132,14 @@ async def client(
 
 @pytest.fixture
 async def db_client(
-    settings: Settings, queue: FakeQueue, session_factory: async_sessionmaker[AsyncSession]
+    settings: Settings,
+    queue: FakeQueue,
+    limiter: MemoryLoginLimiter,
+    session_factory: async_sessionmaker[AsyncSession],
 ) -> AsyncIterator[httpx.AsyncClient]:
     async def override() -> AsyncIterator[AsyncSession]:
         async with session_factory() as session:
             yield session
 
-    async for c in _client(settings, queue, override):
+    async for c in _client(settings, queue, override, limiter):
         yield c

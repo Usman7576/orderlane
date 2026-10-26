@@ -11,10 +11,9 @@ import os
 import secrets
 from pathlib import Path
 
-from pwdlib import PasswordHash
-
 from app.config import get_settings
 from app.db import make_engine, make_session_factory
+from app.services.auth import hash_password
 from app.services.seeding import reset_database, seed
 
 DATA_DIR = Path(__file__).resolve().parent.parent / "seed"
@@ -25,7 +24,7 @@ async def main(reset: bool) -> None:
     engine = make_engine(settings.database_url)
     factory = make_session_factory(engine)
 
-    email = os.environ.get("SEED_ADMIN_EMAIL", "admin@orderlane.test")
+    email = os.environ.get("SEED_ADMIN_EMAIL", "admin@orderlane.test").strip().lower()
     password = os.environ.get("SEED_ADMIN_PASSWORD") or secrets.token_urlsafe(12)
     generated = not os.environ.get("SEED_ADMIN_PASSWORD")
 
@@ -38,7 +37,7 @@ async def main(reset: bool) -> None:
             DATA_DIR,
             wa_phone_number_id=settings.wa_phone_number_id or None,
             admin_email=email,
-            admin_password_hash=PasswordHash.recommended().hash(password),
+            admin_password_hash=hash_password(password),  # enforces the minimum length
         )
     await engine.dispose()
 

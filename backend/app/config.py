@@ -19,6 +19,12 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://orderlane:orderlane@localhost:5432/orderlane"
     redis_url: str = "redis://localhost:6379/0"
     session_secret: SecretStr = SecretStr("change-me")
+    # Dashboard sessions. cookie_secure must be true in production (HTTPS only).
+    cookie_secure: bool = False
+    session_idle_hours: int = 12
+    session_max_days: int = 7
+    login_max_failures: int = 5
+    login_lock_minutes: int = 15
     storage_dir: Path = Path("storage")
 
     # WhatsApp Cloud API
