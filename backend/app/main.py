@@ -5,7 +5,16 @@ from arq import create_pool
 from arq.connections import RedisSettings
 from fastapi import FastAPI
 
-from app.api import auth, catalog, customers, health, operations, orders, webhooks
+from app.api import (
+    auth,
+    catalog,
+    customers,
+    health,
+    operations,
+    orders,
+    simulator,
+    webhooks,
+)
 from app.config import get_settings
 from app.db import make_engine, make_session_factory
 from app.log import configure_logging
@@ -35,7 +44,7 @@ def create_app() -> FastAPI:
     app = FastAPI(title="OrderLane API", version="0.1.0", lifespan=lifespan)
     app.include_router(health.router)
     app.include_router(webhooks.router)
-    for module in (auth, orders, catalog, customers, operations):
+    for module in (auth, orders, catalog, customers, operations, simulator):
         app.include_router(module.router)
     return app
 

@@ -15,6 +15,7 @@ import { Login } from "./pages/Login";
 import { NotFound } from "./pages/NotFound";
 import { OrderReview } from "./pages/OrderReview";
 import { Orders } from "./pages/Orders";
+import { Simulator } from "./pages/Simulator";
 
 // If a session expires mid-use, send the user back to sign in.
 function onApiError(error: unknown) {
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       { path: "/catalog", element: <Catalog /> },
       { path: "/customers", element: <Customers /> },
       { path: "/jobs", element: <Jobs /> },
+      { path: "/simulator", element: <Simulator /> },
       { path: "*", element: <NotFound /> },
     ],
   },

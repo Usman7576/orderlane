@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { AlertTriangle, Boxes, Inbox, LogOut, Users } from "lucide-react";
+import { AlertTriangle, Boxes, Inbox, LogOut, MessageSquare, Users } from "lucide-react";
 import { NavLink, Outlet } from "react-router";
 
 import { api } from "../lib/api";
@@ -65,6 +65,7 @@ export function Layout() {
           <NavItem to="/catalog" icon={Boxes} label="Catalog" />
           <NavItem to="/customers" icon={Users} label="Customers" />
           <NavItem to="/jobs" icon={AlertTriangle} label="Failed jobs" count={summary.data?.failed_jobs} alert />
+          <NavItem to="/simulator" icon={MessageSquare} label="Chat simulator" />
         </nav>
         <div className="mt-auto border-t border-ink-200 px-3 pt-4">
           <p className="truncate text-sm font-medium text-ink-900">{user?.name ?? user?.email}</p>
@@ -87,6 +88,7 @@ export function Layout() {
             <NavLink to="/catalog">Catalog</NavLink>
             <NavLink to="/customers">Customers</NavLink>
             <NavLink to="/jobs">Jobs</NavLink>
+            <NavLink to="/simulator">Chat</NavLink>
           </nav>
         </header>
         <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 md:px-8">

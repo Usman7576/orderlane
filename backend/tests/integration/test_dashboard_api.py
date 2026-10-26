@@ -323,3 +323,45 @@ async def test_expired_sessions_are_refused_and_deleted(
     assert (await db_client.get("/api/orders")).status_code == 401
     async with session_factory() as session:
         assert (await session.execute(select(UserSession))).first() is None
+
+
+# --- Web chat simulator ---
+
+
+async def test_simulator_messages_use_the_real_pipeline(
+    db_client: httpx.AsyncClient, session_factory: Factory, queue: FakeQueue
+) -> None:
+    business_id = await seeded_business(session_factory)
+    await _add_user(session_factory, business_id)
+    await _login(db_client)
+
+    text = await db_client.post(
+        "/api/simulator/messages",
+        json={"phone": "923001112233", "name": "Demo Shop", "text": "2 ctn tapal 950"},
+        headers=_headers(db_client),
+    )
+    button = await db_client.post(
+        "/api/simulator/messages",
+        json={"phone": "923001112233", "button_id": "confirm:7", "button_title": "Confirm"},
+        headers=_headers(db_client),
+    )
+    both = await db_client.post(
+        "/api/simulator/messages",
+        json={"phone": "923001112233", "text": "x", "button_id": "edit:7"},
+        headers=_headers(db_client),
+    )
+
+    assert text.status_code == button.status_code == 202
+    assert both.status_code == 422
+    assert [m for m, _ in queue.calls] == [text.json()["message_id"], button.json()["message_id"]]
+    async with session_factory() as session:
+        saved = await session.get_one(Message, button.json()["message_id"])
+    assert (saved.channel, saved.type) == ("webchat", "interactive")
+    assert saved.raw == {
+        "interactive": {"type": "button_reply", "button_reply": {"id": "confirm:7"}}
+    }
+
+    convo = (
+        await db_client.get("/api/simulator/conversation", params={"phone": "923001112233"})
+    ).json()
+    assert [m["body"] for m in convo] == ["2 ctn tapal 950", "Confirm"]
