@@ -11,7 +11,22 @@ There are two versions, **Form A** and **Form B**, with different tasks. Send Fo
 
 ---
 
-## Step 1: Create the Google Form (about 20 minutes)
+## Step 1 (fastest): create both forms with the script (about 2 minutes)
+
+[`tools/google-forms/create_dataset_forms.gs`](../tools/google-forms/create_dataset_forms.gs) creates **Form A, Form B and one Google Sheet** that collects every answer, in your own Google account. The question titles match what the importer expects, so nothing needs renaming.
+
+1. Open **script.google.com** → **New project**.
+2. Delete the sample code, paste the whole `.gs` file, and click **Save**.
+3. Change `WHATSAPP_NUMBER` at the top to the number friends should send voice notes to.
+4. In the toolbar, choose **createDatasetForms** and click **Run**.
+5. Allow access when Google asks. If you see "Google hasn't verified this app": **Advanced** → **Go to … (unsafe)**. It's your own script, and it only creates forms and a sheet in your Drive.
+6. Open **Execution log**. It prints the link to send for each form, the edit links, and the Sheet link.
+
+Responses appear in the Sheet live, one tab per form ("Form Responses 1" = Form A, "Form Responses 2" = Form B). If you change `tasks.yaml`, regenerate the script with `uv run python -m scripts.generate_google_forms` (from `backend/`).
+
+The manual way below does the same thing by hand.
+
+## Step 1 (manual): create the Google Form (about 20 minutes)
 
 Go to forms.google.com → Blank form. Build **Form A** as below, then use **More (⋮) → Make a copy** and swap in the Form B tasks.
 
@@ -79,7 +94,11 @@ Then add one more question:
 
 ## Step 3: After responses come in
 
-1. **Export the typed answers:** in the form, Responses → **Link to Sheets**. Download it as CSV into `evals/datasets/raw/` (this folder is gitignored, because raw answers may contain personal details).
+1. **Export the typed answers:** open the responses Sheet, select the **Form Responses 1** tab, then **File → Download → Comma-separated values (.csv)**; save it as `evals/datasets/raw/form_a.csv`. Do the same for **Form Responses 2** → `form_b.csv`. (CSV export saves only the open tab.) The `raw/` folder is gitignored, because raw answers may contain personal details. Then import both:
+   ```bash
+   cd backend
+   uv run python -m evals.import_form ../evals/datasets/raw/form_a.csv ../evals/datasets/raw/form_b.csv
+   ```
 2. **Save the voice notes:** in WhatsApp, open each chat → ⋮ → More → **Export chat** → **Include media**. Copy the `.opus` files into:
    - `evals/datasets/audio/public/` if the person said **Yes** to publishing,
    - `evals/datasets/audio/private/` if they said **No** (this folder is gitignored).
